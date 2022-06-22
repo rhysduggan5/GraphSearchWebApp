@@ -1,15 +1,14 @@
-import logo from './logo.svg';
-import './App.css';
+import Header from './components/Header'
+import Grid from './components/Grid'
 
 function App() {
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          This is my first attempt!
-        </p>
-      </header>
+    <div className="container">
+      <Header />
+      
+      <br/>
+      <Grid />
     </div>
   );
 }
