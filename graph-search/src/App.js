@@ -1,6 +1,7 @@
 import Header from './components/Header'
 import Grid from './components/Grid'
 import Buttons from './components/Buttons'
+import BfsSearch from './searchAlgorithms/Bfs'
 import React from 'react'
 
 class App extends React.Component {
@@ -8,11 +9,14 @@ class App extends React.Component {
   constructor() {
     super();
 
-    const cols = this.generateCells()
+    const data = this.generateCells()
 
     this.state = {
-      cols: cols,
-      tool: "pen"
+      cols: data[0],
+      tool: "pen",
+      start: data[1],
+      goal: data[2],
+      search: "bfs"
     }
   }
 
@@ -26,10 +30,10 @@ class App extends React.Component {
     const rows = 50
     const columns = 25
 
-    const startX = Math.floor(Math.random() * (51))
-    const startY = Math.floor(Math.random() * (26))
-    const goalX = Math.floor(Math.random() * (51))
-    const goalY = Math.floor(Math.random() * (26))
+    const startX = Math.floor(Math.random() * (50))
+    const startY = Math.floor(Math.random() * (25))
+    const goalX = Math.floor(Math.random() * (50))
+    const goalY = Math.floor(Math.random() * (25))
 
     for (let x = 0; x < rows; x++) {
       cols.push([])
@@ -48,15 +52,17 @@ class App extends React.Component {
     cols[startX][startY].state = "start"
     cols[goalX][goalY].state = "goal"
 
-    return cols
+    return [cols, [startX, startY], [goalX, goalY]]
   }
 
   resetGrid = () => {
 
-    const cols = this.generateCells()
+    const data = this.generateCells()
 
     this.setState({
-      cols: cols
+      cols: data[0],
+      start: data[1],
+      goal: data[2]
     })
   }
 
@@ -79,12 +85,27 @@ class App extends React.Component {
     })
   }
 
+  searchClicked = (event) => {
+    switch(this.state.search) {
+      case "bfs":
+        BfsSearch(this.state.cols, this.state.start, this.state.goal)
+        return
+      default:
+        return
+    }
+  }
+
+
   render() {
     return (
       <div className="container">
         <Header />
         <br />
-        <Buttons resetGrid={this.resetGrid} tool={this.state.tool} alterTool={this.alterTool} />
+        <Buttons 
+          resetGrid={this.resetGrid} 
+          tool={this.state.tool} 
+          alterTool={this.alterTool}
+          searchClicked={this.searchClicked} />
         <br />
         <Grid
           grid={this.state.cols}

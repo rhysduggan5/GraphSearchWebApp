@@ -1,4 +1,4 @@
-import { Clear, Delete, Edit } from '@mui/icons-material'
+import { Clear, Delete, Edit, Search } from '@mui/icons-material'
 import { Button, ToggleButtonGroup, ToggleButton } from '@mui/material'
 import React from 'react'
 
@@ -24,6 +24,10 @@ const Buttons = (props) => {
           <Clear/>
         </ToggleButton>
       </ToggleButtonGroup>
+
+      <Button onClick={props.searchClicked} variant="outlined" startIcon={<Search />}>
+        Search
+      </Button>
     </div>
   )
 }
