@@ -13,6 +13,12 @@ const Cell = (props) => {
         return "green"
       case "goal":
         return "red"
+      case "lookingAt":
+        return "blue"
+      case "inQueue":
+        return "grey"
+      case "searched":
+        return "darkgrey"
       default:
         return "white"
     }
@@ -41,7 +47,7 @@ const Cell = (props) => {
   return (
     <div
       className="cell"
-      onClick={e => props.cellClicked(e, props.xPos, props.yPos)}
+      onMouseEnter={e => props.cellClicked(e, props.xPos, props.yPos)}
       style={cellStyle}>
 
     </div>

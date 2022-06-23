@@ -2,6 +2,7 @@ import Header from './components/Header'
 import Grid from './components/Grid'
 import Buttons from './components/Buttons'
 import BfsSearch from './searchAlgorithms/Bfs'
+import * as Constants from './Constants' 
 import React from 'react'
 
 class App extends React.Component {
@@ -27,20 +28,19 @@ class App extends React.Component {
   generateCells() {
     const cols = []
 
-    const rows = 50
-    const columns = 25
+    
 
     const startX = Math.floor(Math.random() * (50))
     const startY = Math.floor(Math.random() * (25))
     const goalX = Math.floor(Math.random() * (50))
     const goalY = Math.floor(Math.random() * (25))
 
-    for (let x = 0; x < rows; x++) {
+    for (let x = 0; x < Constants.ROWS; x++) {
       cols.push([])
     }
 
-    for (let x = 0; x < rows; x++) {
-      for (let y = 0; y < columns; y++) {
+    for (let x = 0; x < Constants.ROWS; x++) {
+      for (let y = 0; y < Constants.COLUMNS; y++) {
         cols[x].push({
           xPos: x,
           yPos: y,
@@ -73,22 +73,31 @@ class App extends React.Component {
   }
 
   cellClicked = (event, x, y) => {
-    const cols = this.state.cols
-    const tile = cols[x][y]
+    if (event.buttons === 1) {
 
-    if (tile.state === "goal" || tile.state === "start") return;
+      const cols = this.state.cols
+      const tile = cols[x][y]
 
-    cols[x][y].state = this.state.tool === "pen" ? "wall" : "blank"
+      if (tile.state === "goal" || tile.state === "start") return;
 
+      cols[x][y].state = this.state.tool === "pen" ? "wall" : "blank"
+
+      this.setState({
+        cols: cols
+      });
+    }
+  }
+
+  updateGrid = (array) => {
     this.setState({
-      cols: cols
-    })
+      cols: array
+    });
   }
 
   searchClicked = (event) => {
     switch(this.state.search) {
       case "bfs":
-        BfsSearch(this.state.cols, this.state.start, this.state.goal)
+        BfsSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid)
         return
       default:
         return
