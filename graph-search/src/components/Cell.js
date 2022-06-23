@@ -1,26 +1,51 @@
 import React from 'react'
 
-const Cell = ({x, y, clicked}) => {
+const Cell = (props) => {
 
-    const handleClick = (event) => {
-        if (event.buttons === 1) {
-            clicked = true;
-            event.target.style.backgroundColor = clicked ? "black" : "white";
-        }
+
+  const backgroundColorGen = (state) => {
+    switch(state) {
+      case "blank":
+        return "white"
+      case "wall":
+        return "black"
+      case "start":
+        return "green"
+      case "goal":
+        return "red"
+      default:
+        return "white"
     }
+  }
 
-    return (
-        <div className="cell" onMouseMove={handleClick}>
-            
-        </div>
-    )
-}
+  const borderColorGen = (state) => {
+    switch(state) {
+      case "blank":
+        return "#888"
+      case "wall":
+        return "#888"
+      case "start":
+        return "rgb(37, 109, 37)"
+      case "goal":
+        return "rgb(168, 36, 36)"
+      default:
+        return "#888"
+    }
+  }
 
+  const cellStyle = {
+    backgroundColor : backgroundColorGen(props.state),
+    border: "solid 1px " + borderColorGen(props.state)
+  }
 
-Cell.defaultProps = {
-    columns: -1,
-    rows: -1,
-    clicked: false
+  return (
+    <div
+      className="cell"
+      onClick={e => props.cellClicked(e, props.xPos, props.yPos)}
+      style={cellStyle}>
+
+    </div>
+  )
 }
 
 export default Cell

@@ -42,10 +42,12 @@ body {
 .cell {
   width: 25px;
   height: 25px;
-  border: solid 1.5px #888;
+  border: solid 1px #888;
 }
 
 .cell:hover {
   background-color: #cccccc;
 } 
+
+
 
