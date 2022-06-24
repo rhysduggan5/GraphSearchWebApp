@@ -49,5 +49,7 @@ body {
   background-color: #cccccc;
 } 
 
-
+.toolbarButton {
+  margin-right: 10px !important;
+}
 

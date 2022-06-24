@@ -1,7 +1,8 @@
 import Header from './components/Header'
 import Grid from './components/Grid'
 import Buttons from './components/Buttons'
-import BfsSearch from './searchAlgorithms/Bfs'
+import {BfsSearch, GraphBfsSearch}  from './searchAlgorithms/Bfs'
+import {DfsSearch, GraphDfsSearch}  from './searchAlgorithms/Dfs'
 import * as Constants from './Constants' 
 import React from 'react'
 
@@ -72,6 +73,12 @@ class App extends React.Component {
     })
   }
 
+  alterAlgo = (event, algo) => {
+    this.setState({
+      search: algo
+    })
+  }
+
   cellClicked = (event, x, y) => {
     if (event.buttons === 1) {
 
@@ -94,10 +101,26 @@ class App extends React.Component {
     });
   }
 
-  searchClicked = (event) => {
+  treeSearchClicked = (event) => {
     switch(this.state.search) {
       case "bfs":
         BfsSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid)
+        return
+      case "dfs":
+        DfsSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid)
+        return
+      default:
+        return
+    }
+  }
+
+  graphSearchClicked = (event) => {
+    switch(this.state.search) {
+      case "bfs":
+        GraphBfsSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid)
+        return
+      case "dfs":
+        GraphDfsSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid)
         return
       default:
         return
@@ -114,7 +137,9 @@ class App extends React.Component {
           resetGrid={this.resetGrid} 
           tool={this.state.tool} 
           alterTool={this.alterTool}
-          searchClicked={this.searchClicked} />
+          treeSearchClicked={this.treeSearchClicked}
+          graphSearchClicked={this.graphSearchClicked} 
+          alterAlgo={this.alterAlgo}/>
         <br />
         <Grid
           grid={this.state.cols}

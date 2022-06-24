@@ -5,7 +5,7 @@ const sleep = (milliseconds) => {
 }
 
 
-export const BfsSearch = async (array, start, goal, updateFunction) => {
+export const DfsSearch = async (array, start, goal, updateFunction) => {
 
   var tile = array[start[0]][start[1]];
   var queue = [];
@@ -34,7 +34,7 @@ export const BfsSearch = async (array, start, goal, updateFunction) => {
     array[neighbour.xPos][neighbour.yPos].state = "inQueue";
   }
 
-  var lookingAt = queue.shift();
+  var lookingAt = queue.pop();
 
   array[lookingAt.xPos][lookingAt.yPos].state = "lookingAt";
 
@@ -58,10 +58,10 @@ export const BfsSearch = async (array, start, goal, updateFunction) => {
       if (closedList[neighbour.xPos][neighbour.yPos] === 1) continue;
 
       queue.push(neighbour);
-      
+
       if (neighbour.state !== "goal") {
         array[neighbour.xPos][neighbour.yPos].state = "inQueue";
-      }      
+      }
     }
 
     array[tile.xPos][tile.yPos].state = "searched";
@@ -69,14 +69,14 @@ export const BfsSearch = async (array, start, goal, updateFunction) => {
     closedList[tile.xPos][tile.yPos] = 1;
 
     while (closedList[lookingAt.xPos][lookingAt.yPos] === 1) {
-      lookingAt = queue.shift();
+      lookingAt = queue.pop();
     }
 
     if (lookingAt.state === "goal") {
       found = true;
       break;
     }
-    
+
     array[lookingAt.xPos][lookingAt.yPos].state = "lookingAt";
 
     updateFunction(array);
@@ -101,10 +101,10 @@ export const BfsSearch = async (array, start, goal, updateFunction) => {
 
     await sleep(15);
   }
-  
+
 }
 
-export const GraphBfsSearch = async (array, start, goal, updateFunction) => {
+export const GraphDfsSearch = async (array, start, goal, updateFunction) => {
 
   var path = [array[start[0]][start[1]]];
 
@@ -137,7 +137,7 @@ export const GraphBfsSearch = async (array, start, goal, updateFunction) => {
 
   }
 
-  var lookingAt = queue.shift();
+  var lookingAt = queue.pop();
 
   var lookingAtTile = lookingAt[lookingAt.length - 1]
 
@@ -169,7 +169,7 @@ export const GraphBfsSearch = async (array, start, goal, updateFunction) => {
 
       if (neighbour.state !== "goal") {
         array[neighbour.xPos][neighbour.yPos].state = "inQueue";
-      }      
+      }
     }
 
     tile = path.pop()
@@ -179,7 +179,7 @@ export const GraphBfsSearch = async (array, start, goal, updateFunction) => {
     closedList[tile.xPos][tile.yPos] = 1;
 
     while (closedList[lookingAtTile.xPos][lookingAtTile.yPos] === 1) {
-      lookingAt = queue.shift();
+      lookingAt = queue.pop();
       lookingAtTile = lookingAt[lookingAt.length - 1]
     }
 
@@ -188,7 +188,7 @@ export const GraphBfsSearch = async (array, start, goal, updateFunction) => {
       console.log(lookingAt);
       break;
     }
-    
+
     array[lookingAtTile.xPos][lookingAtTile.yPos].state = "lookingAt";
 
     updateFunction(array);
@@ -213,7 +213,7 @@ export const GraphBfsSearch = async (array, start, goal, updateFunction) => {
 
     await sleep(15);
 
-    for(let i = lookingAt.length - 1; i >= 0; i--) {
+    for (let i = lookingAt.length - 1; i >= 0; i--) {
       let pathTile = lookingAt[i]
 
       if (pathTile.state === "searched") {
@@ -225,7 +225,7 @@ export const GraphBfsSearch = async (array, start, goal, updateFunction) => {
       }
     }
   }
-  
+
 }
 
 function GetNeighbours(array, tile) {
@@ -250,7 +250,7 @@ function GetNeighbours(array, tile) {
     neighbours.push(array[xPos][yPos + 1])
   } catch (Exception) { }
 
-  return neighbours
+  return shuffle(neighbours)
 }
 
 function GetGraphNeighbours(array, path) {
@@ -277,5 +277,22 @@ function GetGraphNeighbours(array, path) {
     neighbours.push(array[xPos][yPos + 1])
   } catch (Exception) { }
 
-  return neighbours
+  
+
+  return shuffle(neighbours)
+}
+
+function shuffle(array) {
+  let currentIndex = array.length, randomIndex;
+
+  while (currentIndex !== 0) {
+
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+
+    [array[currentIndex], array[randomIndex]] = [
+      array[randomIndex], array[currentIndex]];
+  }
+
+  return array;
 }

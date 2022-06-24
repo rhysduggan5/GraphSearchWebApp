@@ -19,6 +19,8 @@ const Cell = (props) => {
         return "grey"
       case "searched":
         return "darkgrey"
+      case "path":
+        return "purple"
       default:
         return "white"
     }
