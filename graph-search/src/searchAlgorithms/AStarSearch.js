@@ -1,114 +1,19 @@
 import * as Constants from '../Constants'
 
+var FastPriorityQueue = require('fastpriorityqueue');
+
 const sleep = (milliseconds) => {
   return new Promise(resolve => setTimeout(resolve, milliseconds))
 }
 
-
-export const DfsSearch = async (array, start, goal, updateFunction) => {
-
-  var tile = array[start[0]][start[1]];
-  var queue = [];
-  var closedList = [];
-
-  var found = false;
-
-  for (let i = 0; i < Constants.ROWS; i++) {
-    closedList.push([])
-  }
-
-  for (let x = 0; x < Constants.ROWS; x++) {
-    for (let y = 0; y < Constants.COLUMNS; y++) {
-      closedList[x].push(0)
-    }
-  }
-
-  var neighbours = GetNeighbours(array, tile);
-
-  for (let i = 0; i < neighbours.length; i++) {
-    let neighbour = neighbours[i]
-
-    if (neighbour === undefined) continue;
-    if (neighbour.state === "wall" || neighbour.state === "searched") continue;
-    queue.push(neighbour);
-    array[neighbour.xPos][neighbour.yPos].state = "inQueue";
-  }
-
-  var lookingAt = queue.pop();
-
-  array[lookingAt.xPos][lookingAt.yPos].state = "lookingAt";
-
-  closedList[tile.xPos][tile.yPos] = 1;
-
-  updateFunction(array);
-
-  await sleep(15);
-
-  while (queue.length !== 0 || lookingAt !== undefined) {
-    tile = lookingAt;
-
-    neighbours = GetNeighbours(array, tile);
-
-    console.log(neighbours);
-    for (let i = 0; i < neighbours.length; i++) {
-      let neighbour = neighbours[i]
-
-      if (neighbour === undefined) continue;
-      if (neighbour.state === "wall" || neighbour.state === "searched") continue;
-      if (closedList[neighbour.xPos][neighbour.yPos] === 1) continue;
-
-      queue.push(neighbour);
-
-      if (neighbour.state !== "goal") {
-        array[neighbour.xPos][neighbour.yPos].state = "inQueue";
-      }
-    }
-
-    array[tile.xPos][tile.yPos].state = "searched";
-
-    closedList[tile.xPos][tile.yPos] = 1;
-
-    while (closedList[lookingAt.xPos][lookingAt.yPos] === 1) {
-      lookingAt = queue.pop();
-    }
-
-    if (lookingAt.state === "goal") {
-      found = true;
-      break;
-    }
-
-    array[lookingAt.xPos][lookingAt.yPos].state = "lookingAt";
-
-    updateFunction(array);
-
-    await sleep(15);
-  }
-
-  if (found) {
-    array[tile.xPos][tile.yPos].state = "searched";
-
-    console.log("Goal found");
-
-    for (let x = 0; x < Constants.ROWS; x++) {
-      for (let y = 0; y < Constants.COLUMNS; y++) {
-        if (array[x][y].state === "lookingAt") {
-          array[x][y].state = "searched"
-        }
-      }
-    }
-
-    updateFunction(array);
-
-    await sleep(15);
-  }
-
-}
-
-export const GraphDfsSearch = async (array, start, goal, updateFunction) => {
+export const AStarSearch = async (array, start, goal, updateFunction, resetFunction) => {
 
   var path = [array[start[0]][start[1]]];
 
-  var queue = [];
+  const queue = new FastPriorityQueue(function(a, b) {
+    return a[1] < b[1];
+  });
+
   var closedList = [];
 
   var found = false;
@@ -130,14 +35,20 @@ export const GraphDfsSearch = async (array, start, goal, updateFunction) => {
 
     let tempPath = path.slice()
 
+    const distance = euclideanDistance(neighbours[i], goal)
+
+    console.log(distance)
+
     tempPath.push(neighbours[i])
 
-    queue.push(tempPath);
+    console.log([tempPath, distance + tempPath.length])
+
+    queue.add([tempPath, distance]);
     array[neighbours[i].xPos][neighbours[i].yPos].state = "inQueue";
 
   }
 
-  var lookingAt = queue.pop();
+  var lookingAt = queue.poll()[0];
 
   var lookingAtTile = lookingAt[lookingAt.length - 1]
 
@@ -164,8 +75,10 @@ export const GraphDfsSearch = async (array, start, goal, updateFunction) => {
       if (closedList[neighbour.xPos][neighbour.yPos] === 1) continue;
 
       let tempPath = path.slice()
+      const distance = euclideanDistance(neighbours[i], goal)
+
       tempPath.push(neighbour)
-      queue.push(tempPath);
+      queue.add([tempPath, distance + tempPath.length]);
 
       if (neighbour.state !== "goal") {
         array[neighbour.xPos][neighbour.yPos].state = "inQueue";
@@ -179,13 +92,12 @@ export const GraphDfsSearch = async (array, start, goal, updateFunction) => {
     closedList[tile.xPos][tile.yPos] = 1;
 
     while (closedList[lookingAtTile.xPos][lookingAtTile.yPos] === 1) {
-      lookingAt = queue.pop();
+      lookingAt = queue.poll()[0];
       lookingAtTile = lookingAt[lookingAt.length - 1]
     }
 
     if (lookingAtTile.state === "goal") {
       found = true;
-      console.log(lookingAt);
       break;
     }
 
@@ -198,8 +110,6 @@ export const GraphDfsSearch = async (array, start, goal, updateFunction) => {
 
   if (found) {
     array[tile.xPos][tile.yPos].state = "searched";
-
-    console.log("Goal found");
 
     for (let x = 0; x < Constants.ROWS; x++) {
       for (let y = 0; y < Constants.COLUMNS; y++) {
@@ -226,31 +136,7 @@ export const GraphDfsSearch = async (array, start, goal, updateFunction) => {
     }
   }
 
-}
-
-function GetNeighbours(array, tile) {
-  const xPos = tile.xPos;
-  const yPos = tile.yPos;
-
-  var neighbours = [];
-
-  try {
-    neighbours.push(array[xPos - 1][yPos])
-  } catch (Exception) { }
-
-  try {
-    neighbours.push(array[xPos + 1][yPos])
-  } catch (Exception) { }
-
-  try {
-    neighbours.push(array[xPos][yPos - 1])
-  } catch (Exception) { }
-
-  try {
-    neighbours.push(array[xPos][yPos + 1])
-  } catch (Exception) { }
-
-  return shuffle(neighbours)
+  resetFunction();
 }
 
 function GetGraphNeighbours(array, path) {
@@ -295,4 +181,11 @@ function shuffle(array) {
   }
 
   return array;
+}
+
+function euclideanDistance(tile, goal) {
+    let xPos = tile.xPos;
+    let yPos = tile.yPos;
+
+    return Math.floor(Math.sqrt(Math.pow(xPos - goal[0], 2) + Math.pow(yPos - goal[1], 2)))
 }

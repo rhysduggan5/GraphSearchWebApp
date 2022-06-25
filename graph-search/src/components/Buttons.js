@@ -1,4 +1,4 @@
-import { Clear, Delete, Edit, Park, ShowChart } from '@mui/icons-material'
+import { Clear, Delete, Edit, Search } from '@mui/icons-material'
 import { Button, ToggleButtonGroup, ToggleButton, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material'
 import React from 'react'
 
@@ -31,19 +31,11 @@ const Buttons = (props) => {
       </ToggleButtonGroup>
 
       <Button 
-        onClick={props.treeSearchClicked} 
+        onClick={props.searchClicked} 
         variant="outlined" 
-        startIcon={<Park />}
+        startIcon={<Search />}
         className="toolbarButton">
-        Tree Search
-      </Button>
-
-      <Button 
-        onClick={props.graphSearchClicked} 
-        variant="outlined" 
-        startIcon={<ShowChart />}
-        className="toolbarButton">
-        Graph Search
+        Search
       </Button>
 
       <FormControl>
@@ -52,11 +44,13 @@ const Buttons = (props) => {
           row
           aria-labelledby="algorithm-selection"
           name="algorithm-selection"
-          defaultValue="bfs"
+          defaultValue="breadthfirstsearch"
           onChange={props.alterAlgo}
         >
-          <FormControlLabel value="bfs" control={<Radio />} label="Breadth First Search" />
-          <FormControlLabel value="dfs" control={<Radio />} label="Depth First Search" />
+          <FormControlLabel value="breadthfirstsearch" control={<Radio />} label="Breadth First Search" />
+          <FormControlLabel value="depthfirstsearch" control={<Radio />} label="Depth First Search" />
+          <FormControlLabel value="bestfirstsearch" control={<Radio />} label="Best First Search" />
+          <FormControlLabel value="astarsearch" control={<Radio />} label="A* Search" />
         </RadioGroup>
       </FormControl>
     </div>
