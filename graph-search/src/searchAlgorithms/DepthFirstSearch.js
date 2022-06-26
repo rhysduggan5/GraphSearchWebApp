@@ -80,7 +80,18 @@ export const DepthFirstSearch = async (array, start, updateFunction, resetFuncti
 
     while (closedList[lookingAtTile.xPos][lookingAtTile.yPos] === 1) {
       lookingAt = queue.pop();
+
+      //See BreadthFirstSearch file
+      if (lookingAt === undefined) {
+        break;
+      }
+
       lookingAtTile = lookingAt[lookingAt.length - 1]
+    }
+    
+    //See BreadthFirstSearch file
+    if (lookingAt === undefined) {
+      break;
     }
 
     if (lookingAtTile.state === "goal") {
@@ -121,6 +132,8 @@ export const DepthFirstSearch = async (array, start, updateFunction, resetFuncti
         await sleep(20);
       }
     }
+  } else {
+    updateFunction(array);
   }
 
   resetFunction();

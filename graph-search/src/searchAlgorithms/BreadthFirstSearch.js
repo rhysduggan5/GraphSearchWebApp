@@ -80,7 +80,18 @@ export const BreadthFirstSearch = async (array, start, updateFunction, resetFunc
 
     while (closedList[lookingAtTile.xPos][lookingAtTile.yPos] === 1) {
       lookingAt = queue.shift();
+
+      //If search failed
+      if (lookingAt === undefined) {
+        break;
+      }
+
       lookingAtTile = lookingAt[lookingAt.length - 1]
+    }
+
+    //TODO maybe find a better way to do this
+    if (lookingAt === undefined) {
+      break;
     }
 
     if (lookingAtTile.state === "goal") {
@@ -121,6 +132,8 @@ export const BreadthFirstSearch = async (array, start, updateFunction, resetFunc
         await sleep(20);
       }
     }
+  } else {
+    updateFunction(array);
   }
   
   resetFunction()

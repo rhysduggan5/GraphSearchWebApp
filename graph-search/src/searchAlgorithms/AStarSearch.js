@@ -93,8 +93,18 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
     closedList[tile.xPos][tile.yPos] = 1;
 
     while (closedList[lookingAtTile.xPos][lookingAtTile.yPos] === 1) {
+      //See BestFirstSearch.js
+      if (queue.peek() === undefined) {
+        break;
+      }
+
       lookingAt = queue.poll()[0];
       lookingAtTile = lookingAt[lookingAt.length - 1]
+    }
+
+    //See BestFirstSearch.js
+    if (queue.peek() === undefined) {
+      break;
     }
 
     if (lookingAtTile.state === "goal") {
@@ -135,6 +145,8 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
         await sleep(20);
       }
     }
+  } else {
+    updateFunction(array);
   }
 
   resetFunction();

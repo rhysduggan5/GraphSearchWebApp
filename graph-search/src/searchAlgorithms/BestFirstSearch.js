@@ -88,8 +88,19 @@ export const BestFirstSearch = async (array, start, goal, updateFunction, resetF
     closedList[tile.xPos][tile.yPos] = 1;
 
     while (closedList[lookingAtTile.xPos][lookingAtTile.yPos] === 1) {
+      //Since we use arrays, we get a different error than the other files
+      if (queue.peek() === undefined) {
+        break;
+      }
+
       lookingAt = queue.poll()[0];
+
       lookingAtTile = lookingAt[lookingAt.length - 1]
+    }
+
+    //Since we use arrays, we get a different error than the other files
+    if (queue.peek() === undefined) {
+      break;
     }
 
     if (lookingAtTile.state === "goal") {
@@ -130,6 +141,8 @@ export const BestFirstSearch = async (array, start, goal, updateFunction, resetF
         await sleep(20);
       }
     }
+  } else {
+    updateFunction(array);
   }
 
   resetFunction();
