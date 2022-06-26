@@ -31,20 +31,19 @@ export const BestFirstSearch = async (array, start, goal, updateFunction, resetF
   var neighbours = GetGraphNeighbours(array, path);
 
   for (let i = 0; i < neighbours.length; i++) {
-    if (neighbours[i].state === "wall") continue;
+    let neighbour = neighbours[i]
+
+    if (neighbour === undefined) continue;
+    if (neighbour.state === "wall" || neighbour.state === "searched") continue;
 
     let tempPath = path.slice()
 
-    const distance = euclideanDistance(neighbours[i], goal)
+    const distance = euclideanDistance(neighbour, goal)
 
-    console.log(distance)
-
-    tempPath.push(neighbours[i])
-
-    console.log([tempPath, distance])
+    tempPath.push(neighbour)
 
     queue.add([tempPath, distance]);
-    array[neighbours[i].xPos][neighbours[i].yPos].state = "inQueue";
+    array[neighbour.xPos][neighbour.yPos].state = "inQueue";
 
   }
 

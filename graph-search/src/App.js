@@ -32,8 +32,6 @@ class App extends React.Component {
   generateCells() {
     const cols = []
 
-    
-
     const startX = Math.floor(Math.random() * (50))
     const startY = Math.floor(Math.random() * (25))
     const goalX = Math.floor(Math.random() * (50))
@@ -48,6 +46,7 @@ class App extends React.Component {
         cols[x].push({
           xPos: x,
           yPos: y,
+          weight: 1,
           state: "blank"
         })
       }

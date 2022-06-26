@@ -31,20 +31,21 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
   var neighbours = GetGraphNeighbours(array, path);
 
   for (let i = 0; i < neighbours.length; i++) {
-    if (neighbours[i].state === "wall") continue;
+    let neighbour = neighbours[i]
+
+    if (neighbour === undefined) continue;
+    if (neighbour.state === "wall" || neighbour.state === "searched") continue;
 
     let tempPath = path.slice()
 
-    const distance = euclideanDistance(neighbours[i], goal)
+    const distance = euclideanDistance(neighbour, goal)
 
-    console.log(distance)
+    tempPath.push(neighbour)
 
-    tempPath.push(neighbours[i])
+    const weight = pathWeight(tempPath);
 
-    console.log([tempPath, distance + tempPath.length])
-
-    queue.add([tempPath, distance]);
-    array[neighbours[i].xPos][neighbours[i].yPos].state = "inQueue";
+    queue.add([tempPath, distance + weight]);
+    array[neighbour.xPos][neighbour.yPos].state = "inQueue";
 
   }
 
@@ -78,7 +79,10 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
       const distance = euclideanDistance(neighbours[i], goal)
 
       tempPath.push(neighbour)
-      queue.add([tempPath, distance + tempPath.length]);
+
+      const weight = pathWeight(tempPath);
+
+      queue.add([tempPath, distance + weight]);
 
       if (neighbour.state !== "goal") {
         array[neighbour.xPos][neighbour.yPos].state = "inQueue";
@@ -183,9 +187,19 @@ function shuffle(array) {
   return array;
 }
 
-function euclideanDistance(tile, goal) {
-    let xPos = tile.xPos;
-    let yPos = tile.yPos;
+const euclideanDistance = (tile, goal) => {
+  let xPos = tile.xPos;
+  let yPos = tile.yPos;
 
-    return Math.floor(Math.sqrt(Math.pow(xPos - goal[0], 2) + Math.pow(yPos - goal[1], 2)))
+  return Math.floor(Math.sqrt(Math.pow(xPos - goal[0], 2) + Math.pow(yPos - goal[1], 2)))
 }
+
+const pathWeight = (path) => {
+  let weight = 0;
+
+  for (let i = 0; i < path.length; i++) {
+    weight += path[i].weight
+  }
+
+  return weight;
+} 

@@ -26,14 +26,17 @@ export const DepthFirstSearch = async (array, start, goal, updateFunction, reset
   var neighbours = GetGraphNeighbours(array, path);
 
   for (let i = 0; i < neighbours.length; i++) {
-    if (neighbours[i].state === "wall") continue;
+    let neighbour = neighbours[i]
+
+    if (neighbour === undefined) continue;
+    if (neighbour.state === "wall" || neighbour.state === "searched") continue;
 
     let tempPath = path.slice()
 
-    tempPath.push(neighbours[i])
+    tempPath.push(neighbour)
 
     queue.push(tempPath);
-    array[neighbours[i].xPos][neighbours[i].yPos].state = "inQueue";
+    array[neighbour.xPos][neighbour.yPos].state = "inQueue";
 
   }
 
