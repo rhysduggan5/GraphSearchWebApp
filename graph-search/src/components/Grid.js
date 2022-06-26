@@ -4,6 +4,7 @@ import Cell from './Cell'
 const Grid = (props) => {
 
   const cellClicked = props.cellClicked;
+  const cellDragged = props.cellDragged;
 
   return (
     <div className='grid'>
@@ -14,6 +15,7 @@ const Grid = (props) => {
           yPos={val.yPos}
           state={val.state}
           cellClicked={cellClicked}
+          cellDragged={cellDragged}
         />)}
       </div>)}
     </div>

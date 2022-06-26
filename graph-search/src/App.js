@@ -82,6 +82,22 @@ class App extends React.Component {
   }
 
   cellClicked = (event, x, y) => {
+    if (event.buttons === 0) {
+
+      const cols = this.state.cols
+      const tile = cols[x][y]
+
+      if (tile.state === "goal" || tile.state === "start") return;
+
+      cols[x][y].state = this.state.tool === "pen" ? "wall" : "blank"
+
+      this.setState({
+        cols: cols
+      });
+    }
+  }
+
+  cellDragged = (event, x, y) => {
     if (event.buttons === 1) {
 
       const cols = this.state.cols
@@ -172,6 +188,7 @@ class App extends React.Component {
         <Grid
           grid={this.state.cols}
           cellClicked={this.cellClicked}
+          cellDragged={this.cellDragged}
         />
       </div>
     );

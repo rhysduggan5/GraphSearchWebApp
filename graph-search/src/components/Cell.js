@@ -49,7 +49,8 @@ const Cell = (props) => {
   return (
     <div
       className="cell"
-      onMouseEnter={e => props.cellClicked(e, props.xPos, props.yPos)}
+      onClick={e => props.cellClicked(e, props.xPos, props.yPos)}
+      onMouseEnter={e => props.cellDragged(e, props.xPos, props.yPos)}
       style={cellStyle}>
 
     </div>
