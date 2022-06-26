@@ -1,14 +1,14 @@
 import * as Constants from '../Constants'
-import {sleep, GetGraphNeighbours} from '../Utils'
+import {sleep, getGraphNeighbours} from '../Utils'
 
-export const DepthFirstSearch = async (array, start, updateFunction, resetFunction) => {
+export const depthFirstSearch = async (array, start, updateFunction, resetFunction) => {
 
-  var path = [array[start[0]][start[1]]];
+  let path = [array[start[0]][start[1]]];
 
-  var queue = [];
-  var closedList = [];
+  let queue = [];
+  let closedList = [];
 
-  var found = false;
+  let found = false;
 
   for (let i = 0; i < Constants.ROWS; i++) {
     closedList.push([])
@@ -20,7 +20,7 @@ export const DepthFirstSearch = async (array, start, updateFunction, resetFuncti
     }
   }
 
-  var neighbours = GetGraphNeighbours(array, path);
+  let neighbours = getGraphNeighbours(array, path);
 
   for (let i = 0; i < neighbours.length; i++) {
     let neighbour = neighbours[i]
@@ -37,13 +37,13 @@ export const DepthFirstSearch = async (array, start, updateFunction, resetFuncti
 
   }
 
-  var lookingAt = queue.pop();
+  let lookingAt = queue.pop();
 
-  var lookingAtTile = lookingAt[lookingAt.length - 1]
+  let lookingAtTile = lookingAt[lookingAt.length - 1]
 
   array[lookingAtTile.xPos][lookingAtTile.yPos].state = "lookingAt";
 
-  var tile = path.pop()
+  let tile = path.pop()
 
   closedList[tile.xPos][tile.yPos] = 1;
 
@@ -54,7 +54,7 @@ export const DepthFirstSearch = async (array, start, updateFunction, resetFuncti
   while (queue.length !== 0 || lookingAt !== undefined) {
     path = lookingAt;
 
-    neighbours = GetGraphNeighbours(array, path);
+    neighbours = getGraphNeighbours(array, path);
 
     for (let i = 0; i < neighbours.length; i++) {
       let neighbour = neighbours[i]

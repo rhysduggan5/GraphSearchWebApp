@@ -1,19 +1,19 @@
 import * as Constants from '../Constants'
-import {euclideanDistance, pathWeight, sleep, GetGraphNeighbours} from '../Utils'
+import {euclideanDistance, pathWeight, sleep, getGraphNeighbours} from '../Utils'
 
-var FastPriorityQueue = require('fastpriorityqueue');
+const FastPriorityQueue = require('fastpriorityqueue');
 
-export const AStarSearch = async (array, start, goal, updateFunction, resetFunction) => {
+export const aStarSearch = async (array, start, goal, updateFunction, resetFunction) => {
 
-  var path = [array[start[0]][start[1]]];
+  let path = [array[start[0]][start[1]]];
 
-  const queue = new FastPriorityQueue(function(a, b) {
+  let queue = new FastPriorityQueue(function(a, b) {
     return a[1] < b[1];
   });
 
-  var closedList = [];
+  const closedList = [];
 
-  var found = false;
+  let found = false;
 
   for (let i = 0; i < Constants.ROWS; i++) {
     closedList.push([])
@@ -25,7 +25,7 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
     }
   }
 
-  var neighbours = GetGraphNeighbours(array, path);
+  let neighbours = getGraphNeighbours(array, path);
 
   for (let i = 0; i < neighbours.length; i++) {
     let neighbour = neighbours[i]
@@ -46,13 +46,13 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
 
   }
 
-  var lookingAt = queue.poll()[0];
+  let lookingAt = queue.poll()[0];
 
-  var lookingAtTile = lookingAt[lookingAt.length - 1]
+  let lookingAtTile = lookingAt[lookingAt.length - 1]
 
   array[lookingAtTile.xPos][lookingAtTile.yPos].state = "lookingAt";
 
-  var tile = path.pop()
+  let tile = path.pop()
 
   closedList[tile.xPos][tile.yPos] = 1;
 
@@ -63,7 +63,7 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
   while (queue.length !== 0 || lookingAt !== undefined) {
     path = lookingAt;
 
-    neighbours = GetGraphNeighbours(array, path);
+    neighbours = getGraphNeighbours(array, path);
 
     for (let i = 0; i < neighbours.length; i++) {
       let neighbour = neighbours[i]

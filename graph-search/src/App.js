@@ -1,10 +1,10 @@
 import Header from './components/Header'
 import Grid from './components/Grid'
 import Buttons from './components/Buttons'
-import {BreadthFirstSearch}  from './searchAlgorithms/BreadthFirstSearch'
-import {DepthFirstSearch}  from './searchAlgorithms/DepthFirstSearch'
-import {BestFirstSearch}  from './searchAlgorithms/BestFirstSearch'
-import {AStarSearch}  from './searchAlgorithms/AStarSearch'
+import {breadthFirstSearch}  from './searchAlgorithms/BreadthFirstSearch'
+import {depthFirstSearch}  from './searchAlgorithms/DepthFirstSearch'
+import {bestFirstSearch}  from './searchAlgorithms/BestFirstSearch'
+import {aStarSearch}  from './searchAlgorithms/AStarSearch'
 import * as Constants from './Constants' 
 import React from 'react'
 
@@ -129,16 +129,16 @@ class App extends React.Component {
 
       switch(this.state.search) {
         case "breadthfirstsearch":
-          BreadthFirstSearch(this.state.cols, this.state.start, this.updateGrid, this.stopSearching)
+          breadthFirstSearch(this.state.cols, this.state.start, this.updateGrid, this.stopSearching)
           return
         case "depthfirstsearch":
-          DepthFirstSearch(this.state.cols, this.state.start, this.updateGrid, this.stopSearching)
+          depthFirstSearch(this.state.cols, this.state.start, this.updateGrid, this.stopSearching)
           return
         case "bestfirstsearch":
-          BestFirstSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid, this.stopSearching)
+          bestFirstSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid, this.stopSearching)
           break;
         case "astarsearch":
-          AStarSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid, this.stopSearching)
+          aStarSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid, this.stopSearching)
           break;
         default:
           return

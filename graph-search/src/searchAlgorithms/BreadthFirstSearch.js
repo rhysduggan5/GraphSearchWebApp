@@ -1,26 +1,27 @@
 import * as Constants from '../Constants'
-import {sleep, GetGraphNeighbours} from '../Utils'
 
-export const BreadthFirstSearch = async (array, start, updateFunction, resetFunction) => {
+import {sleep, getGraphNeighbours} from '../Utils'
 
-  var path = [array[start[0]][start[1]]];
+export const breadthFirstSearch = async (array, start, updateFunction, resetFunction) => {
 
-  var queue = [];
-  var closedList = [];
+  let path = [array[start[0]][start[1]]];
 
-  var found = false;
+  let queue = [];
+  let closedList = [];
+
+  let found = false;
 
   for (let i = 0; i < Constants.ROWS; i++) {
-    closedList.push([])
+    closedList.push([]);
   }
 
   for (let x = 0; x < Constants.ROWS; x++) {
     for (let y = 0; y < Constants.COLUMNS; y++) {
-      closedList[x].push(0)
+      closedList[x].push(0);
     }
   }
 
-  var neighbours = GetGraphNeighbours(array, path);
+  var neighbours = getGraphNeighbours(array, path);
 
   for (let i = 0; i < neighbours.length; i++) {
     let neighbour = neighbours[i]
@@ -37,13 +38,13 @@ export const BreadthFirstSearch = async (array, start, updateFunction, resetFunc
 
   }
 
-  var lookingAt = queue.shift();
+  let lookingAt = queue.shift();
 
-  var lookingAtTile = lookingAt[lookingAt.length - 1]
+  let lookingAtTile = lookingAt[lookingAt.length - 1]
 
   array[lookingAtTile.xPos][lookingAtTile.yPos].state = "lookingAt";
 
-  var tile = path.pop()
+  let tile = path.pop()
 
   closedList[tile.xPos][tile.yPos] = 1;
 
@@ -54,7 +55,7 @@ export const BreadthFirstSearch = async (array, start, updateFunction, resetFunc
   while (queue.length !== 0 || lookingAt !== undefined) {
     path = lookingAt;
 
-    neighbours = GetGraphNeighbours(array, path);
+    neighbours = getGraphNeighbours(array, path);
 
     for (let i = 0; i < neighbours.length; i++) {
       let neighbour = neighbours[i]
