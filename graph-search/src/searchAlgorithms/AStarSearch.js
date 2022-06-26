@@ -38,13 +38,13 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
 
     let tempPath = path.slice()
 
-    const distance = euclideanDistance(neighbour, goal)
+    const heuristic = euclideanDistance(neighbour, goal)
 
     tempPath.push(neighbour)
 
     const weight = pathWeight(tempPath);
 
-    queue.add([tempPath, distance + weight]);
+    queue.add([tempPath, heuristic + weight]);
     array[neighbour.xPos][neighbour.yPos].state = "inQueue";
 
   }
@@ -76,13 +76,13 @@ export const AStarSearch = async (array, start, goal, updateFunction, resetFunct
       if (closedList[neighbour.xPos][neighbour.yPos] === 1) continue;
 
       let tempPath = path.slice()
-      const distance = euclideanDistance(neighbours[i], goal)
+      const heuristic = euclideanDistance(neighbours[i], goal)
 
       tempPath.push(neighbour)
 
       const weight = pathWeight(tempPath);
 
-      queue.add([tempPath, distance + weight]);
+      queue.add([tempPath, heuristic + weight]);
 
       if (neighbour.state !== "goal") {
         array[neighbour.xPos][neighbour.yPos].state = "inQueue";
