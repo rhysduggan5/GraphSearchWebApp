@@ -1,7 +1,7 @@
 import * as Constants from '../Constants'
 import {sleep, GetGraphNeighbours} from '../Utils'
 
-export const DepthFirstSearch = async (array, start, goal, updateFunction, resetFunction) => {
+export const DepthFirstSearch = async (array, start, updateFunction, resetFunction) => {
 
   var path = [array[start[0]][start[1]]];
 

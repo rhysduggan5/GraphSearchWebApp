@@ -129,10 +129,10 @@ class App extends React.Component {
 
       switch(this.state.search) {
         case "breadthfirstsearch":
-          BreadthFirstSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid, this.stopSearching)
+          BreadthFirstSearch(this.state.cols, this.state.start, this.updateGrid, this.stopSearching)
           return
         case "depthfirstsearch":
-          DepthFirstSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid, this.stopSearching)
+          DepthFirstSearch(this.state.cols, this.state.start, this.updateGrid, this.stopSearching)
           return
         case "bestfirstsearch":
           BestFirstSearch(this.state.cols, this.state.start, this.state.goal, this.updateGrid, this.stopSearching)
