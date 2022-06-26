@@ -1,8 +1,5 @@
 import * as Constants from '../Constants'
-
-const sleep = (milliseconds) => {
-  return new Promise(resolve => setTimeout(resolve, milliseconds))
-}
+import {sleep, GetGraphNeighbours} from '../Utils'
 
 export const DepthFirstSearch = async (array, start, goal, updateFunction, resetFunction) => {
 
@@ -127,48 +124,4 @@ export const DepthFirstSearch = async (array, start, goal, updateFunction, reset
   }
 
   resetFunction();
-}
-
-function GetGraphNeighbours(array, path) {
-  let tile = path[path.length - 1]
-
-  const xPos = tile.xPos;
-  const yPos = tile.yPos;
-
-  var neighbours = [];
-
-  try {
-    neighbours.push(array[xPos - 1][yPos])
-  } catch (Exception) { }
-
-  try {
-    neighbours.push(array[xPos + 1][yPos])
-  } catch (Exception) { }
-
-  try {
-    neighbours.push(array[xPos][yPos - 1])
-  } catch (Exception) { }
-
-  try {
-    neighbours.push(array[xPos][yPos + 1])
-  } catch (Exception) { }
-
-  
-
-  return shuffle(neighbours)
-}
-
-function shuffle(array) {
-  let currentIndex = array.length, randomIndex;
-
-  while (currentIndex !== 0) {
-
-    randomIndex = Math.floor(Math.random() * currentIndex);
-    currentIndex--;
-
-    [array[currentIndex], array[randomIndex]] = [
-      array[randomIndex], array[currentIndex]];
-  }
-
-  return array;
 }
