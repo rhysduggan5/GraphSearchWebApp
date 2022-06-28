@@ -30,7 +30,7 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
     let neighbour = neighbours[i]
 
     if (neighbour === undefined) continue;
-    if (neighbour.state === "wall" || neighbour.state === "searched") continue;
+    if (neighbour.state === "wall" || neighbour.extra === "searched") continue;
 
     let tempPath = path.slice()
 
@@ -39,7 +39,7 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
     tempPath.push(neighbour)
 
     queue.add([tempPath, distance]);
-    array[neighbour.xPos][neighbour.yPos].state = "inQueue";
+    array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
 
   }
 
@@ -47,7 +47,7 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
 
   let lookingAtTile = lookingAt[lookingAt.length - 1]
 
-  array[lookingAtTile.xPos][lookingAtTile.yPos].state = "lookingAt";
+  array[lookingAtTile.xPos][lookingAtTile.yPos].extra = "lookingAt";
 
   let tile = path.pop()
 
@@ -66,7 +66,7 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
       let neighbour = neighbours[i]
 
       if (neighbour === undefined) continue;
-      if (neighbour.state === "wall" || neighbour.state === "searched") continue;
+      if (neighbour.state === "wall" || neighbour.extra === "searched") continue;
       if (closedList[neighbour.xPos][neighbour.yPos] === 1) continue;
 
       let tempPath = path.slice()
@@ -76,13 +76,13 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
       queue.add([tempPath, distance]);
 
       if (neighbour.state !== "goal") {
-        array[neighbour.xPos][neighbour.yPos].state = "inQueue";
+        array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
       }
     }
 
     tile = path.pop()
 
-    array[tile.xPos][tile.yPos].state = "searched";
+    array[tile.xPos][tile.yPos].extra = "searched";
 
     closedList[tile.xPos][tile.yPos] = 1;
 
@@ -107,7 +107,7 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
       break;
     }
 
-    array[lookingAtTile.xPos][lookingAtTile.yPos].state = "lookingAt";
+    array[lookingAtTile.xPos][lookingAtTile.yPos].extra = "lookingAt";
 
     updateFunction(array);
 
@@ -115,12 +115,12 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
   }
 
   if (found) {
-    array[tile.xPos][tile.yPos].state = "searched";
+    array[tile.xPos][tile.yPos].extra = "searched";
 
     for (let x = 0; x < Constants.ROWS; x++) {
       for (let y = 0; y < Constants.COLUMNS; y++) {
-        if (array[x][y].state === "lookingAt") {
-          array[x][y].state = "searched"
+        if (array[x][y].extra === "lookingAt") {
+          array[x][y].extra = "searched"
         }
       }
     }
@@ -132,8 +132,8 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
     for (let i = lookingAt.length - 1; i >= 0; i--) {
       let pathTile = lookingAt[i]
 
-      if (pathTile.state === "searched") {
-        array[pathTile.xPos][pathTile.yPos].state = "path"
+      if (pathTile.extra === "searched") {
+        array[pathTile.xPos][pathTile.yPos].extra = "path"
 
         updateFunction(array)
 

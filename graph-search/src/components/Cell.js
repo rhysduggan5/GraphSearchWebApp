@@ -5,16 +5,24 @@ const Cell = (props) => {
 
 
   const backgroundColorGen = (state, extra) => {
-    switch(extra) {
+    switch (extra) {
       case "starthover":
         return "rgba(0, 128, 0, 0.5)"
       case "goalhover":
         return "rgba(256, 0, 0, 0.5)"
+      case "inQueue":
+        return "grey"
+      case "searched":
+        return "darkgrey"
+      case "path":
+        return "purple"
+      case "lookingAt":
+        return "blue"
       default:
         break;
     }
 
-    switch(state) {
+    switch (state) {
       case "blank":
         return "white"
       case "wall":
@@ -23,14 +31,6 @@ const Cell = (props) => {
         return "green"
       case "goal":
         return "red"
-      case "lookingAt":
-        return "blue"
-      case "inQueue":
-        return "grey"
-      case "searched":
-        return "darkgrey"
-      case "path":
-        return "purple"
       case "heavyfloor":
         return "darkgrey"
       default:
@@ -39,7 +39,7 @@ const Cell = (props) => {
   }
 
   const borderColorGen = (state) => {
-    switch(state) {
+    switch (state) {
       case "blank":
         return "#888"
       case "wall":
@@ -54,7 +54,7 @@ const Cell = (props) => {
   }
 
   const cellStyle = {
-    backgroundColor : backgroundColorGen(props.state, props.extra),
+    backgroundColor: backgroundColorGen(props.state, props.extra),
     border: "solid 1px " + borderColorGen(props.state)
   }
 
@@ -89,10 +89,10 @@ const Cell = (props) => {
         }}
         onDragLeave={(e) => {
           props.onTileDragExit(e, props.xPos, props.yPos)
-        }}>  
+        }}>
 
-        {props.state === "heavyfloor" ? <FitnessCenter/> : <div/>}
-        
+        {props.state === "heavyfloor" ? <FitnessCenter /> : <div />}
+
       </div>
     )
   }

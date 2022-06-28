@@ -175,13 +175,7 @@ function App() {
       let column = array[i];
 
       for (let j = 0; j < column.length; j++) {
-        let tile = column[j]
-
-        if (tile.state === "searched" 
-          || tile.state === "lookingAt"
-          || tile.state === "inQueue") {
-          array[i][j].state = "blank"
-        }
+        array[i][j].extra = ""
       }
     }
 
