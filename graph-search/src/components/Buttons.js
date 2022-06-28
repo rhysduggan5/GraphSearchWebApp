@@ -1,11 +1,15 @@
-import { Clear, Delete, Edit, Search } from '@mui/icons-material'
-import { Button, ToggleButtonGroup, ToggleButton, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material'
+import { Clear, Delete, Edit, FitnessCenter, Search } from '@mui/icons-material'
+import { Button, ToggleButtonGroup, ToggleButton } from '@mui/material'
+
 import React from 'react'
 
 const Buttons = (props) => {
 
   return (
-    <div style={{}}>
+    <div style={{
+      display: "flex",
+      justifyContent: "center"
+    }}>
       <Button 
         onClick={props.resetGrid} 
         variant="outlined" 
@@ -22,10 +26,13 @@ const Buttons = (props) => {
         style={{marginRight:"10px"}}
         size="small"
         >
-        <ToggleButton value="pen" aria-label="bold">
+        <ToggleButton value="pen" aria-label="pen">
           <Edit/>
         </ToggleButton>
-        <ToggleButton value="eraser" aria-label="italic">
+        <ToggleButton value="heavypen" aria-label="heavypen">
+          <FitnessCenter/>
+        </ToggleButton>
+        <ToggleButton value="eraser" aria-label="eraser">
           <Clear/>
         </ToggleButton>
       </ToggleButtonGroup>
@@ -37,22 +44,6 @@ const Buttons = (props) => {
         className="toolbarButton">
         Search
       </Button>
-
-      <FormControl>
-        <FormLabel id="algo-selection">Algorithm</FormLabel>
-        <RadioGroup
-          row
-          aria-labelledby="algorithm-selection"
-          name="algorithm-selection"
-          defaultValue="breadthfirstsearch"
-          onChange={props.alterAlgo}
-        >
-          <FormControlLabel value="breadthfirstsearch" control={<Radio />} label="Breadth First Search" />
-          <FormControlLabel value="depthfirstsearch" control={<Radio />} label="Depth First Search" />
-          <FormControlLabel value="bestfirstsearch" control={<Radio />} label="Best First Search" />
-          <FormControlLabel value="astarsearch" control={<Radio />} label="A* Search" />
-        </RadioGroup>
-      </FormControl>
     </div>
   )
 }

@@ -1,3 +1,4 @@
+import { FitnessCenter } from '@mui/icons-material'
 import React from 'react'
 
 const Cell = (props) => {
@@ -30,6 +31,8 @@ const Cell = (props) => {
         return "darkgrey"
       case "path":
         return "purple"
+      case "heavyfloor":
+        return "darkgrey"
       default:
         return "white"
     }
@@ -87,6 +90,8 @@ const Cell = (props) => {
         onDragLeave={(e) => {
           props.onTileDragExit(e, props.xPos, props.yPos)
         }}>  
+
+        {props.state === "heavyfloor" ? <FitnessCenter/> : <div/>}
         
       </div>
     )

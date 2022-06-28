@@ -1,3 +1,5 @@
+import {useReducer} from 'react'
+
 /**
  * Shuffles an array randomly. This doesn't use any more space than
  * the inital array
@@ -97,4 +99,57 @@ export const getGraphNeighbours = (array, path) => {
   //Shuffle the neighbours so the order isn't consistent every time.
   //Only useful for visuals
   return shuffle(neighbours)
+}
+
+/**
+ * Generates an initial setup of a grid, including a random start
+ * and goal tile.
+ * @returns An array, a, such that:
+ *            a[0] - the array of cells
+ *            a[1] - the array of start coordinates
+ *            a[2] - the array of goal coordinates
+ */
+export const generateCells = (xSize, ySize) => {
+  const cols = []
+
+  //Randomly generate a start and goal location (a pair of integers)
+  const startX = Math.floor(Math.random() * (ySize))
+  const startY = Math.floor(Math.random() * (xSize))
+  const goalX = Math.floor(Math.random() * (ySize))
+  const goalY = Math.floor(Math.random() * (xSize))
+
+  //Set up the array
+  for (let x = 0; x < ySize; x++) {
+    cols.push([])
+  }
+
+  //Set every cell to be blank initially
+  for (let x = 0; x < ySize; x++) {
+    for (let y = 0; y < xSize; y++) {
+      cols[x].push({
+        xPos: x,
+        yPos: y,
+        weight: 1,
+        extra: "",
+        state: "blank"
+      })
+    }
+  }
+
+  //Update the start and goal cells
+  cols[startX][startY].state = "start"
+  cols[goalX][goalY].state = "goal"
+
+  //Return all three bits of information in an array
+  return [cols, [startX, startY], [goalX, goalY]]
+}
+
+/**
+ * Util function to force a rerender of the screen. Needed
+ * since hooks are asynchronous and will batch update - so
+ * necessary for the animations of graph searching
+ */
+export const useForceRender = () => {
+  const [, forceRender] = useReducer(x => !x, true)
+  return forceRender
 }

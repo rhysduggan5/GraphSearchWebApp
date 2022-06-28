@@ -11,12 +11,12 @@ export const breadthFirstSearch = async (array, start, updateFunction, resetFunc
 
   let found = false;
 
-  for (let i = 0; i < Constants.ROWS; i++) {
+  for (let i = 0; i < array.length; i++) {
     closedList.push([]);
   }
 
-  for (let x = 0; x < Constants.ROWS; x++) {
-    for (let y = 0; y < Constants.COLUMNS; y++) {
+  for (let x = 0; x < array.length; x++) {
+    for (let y = 0; y < array[0].length; y++) {
       closedList[x].push(0);
     }
   }
