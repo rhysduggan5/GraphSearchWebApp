@@ -4,7 +4,6 @@ import {euclideanDistance, sleep, getGraphNeighbours} from '../Utils'
 const FastPriorityQueue = require('fastpriorityqueue');
 
 export const bestFirstSearch = async (array, start, goal, updateFunction, resetFunction) => {
-
   let path = [array[start[0]][start[1]]];
 
   const queue = new FastPriorityQueue(function(a, b) {

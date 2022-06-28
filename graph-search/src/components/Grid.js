@@ -3,9 +3,6 @@ import Cell from './Cell'
 
 const Grid = (props) => {
 
-  const cellClicked = props.cellClicked;
-  const cellDragged = props.cellDragged;
-
   return (
     <div className='grid'>
       {props.grid.map((col, colNumber) => <div key={`col:${colNumber}`} className='col'>
@@ -14,8 +11,13 @@ const Grid = (props) => {
           xPos={val.xPos}
           yPos={val.yPos}
           state={val.state}
-          cellClicked={cellClicked}
-          cellDragged={cellDragged}
+          extra={val.extra}
+          cellClicked={props.cellClicked}
+          cellDragged={props.cellDragged}
+          onTileStartDrag={props.onTileStartDrag}
+          onTileDrop={props.onTileDrop}
+          onTileDragEnter={props.onTileDragEnter}
+          onTileDragExit={props.onTileDragExit}
         />)}
       </div>)}
     </div>

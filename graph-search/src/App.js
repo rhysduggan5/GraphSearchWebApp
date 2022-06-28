@@ -47,6 +47,7 @@ class App extends React.Component {
           xPos: x,
           yPos: y,
           weight: 1,
+          extra: "",
           state: "blank"
         })
       }
@@ -69,13 +70,13 @@ class App extends React.Component {
     })
   }
 
-  alterTool = (event, tool) => {
+  alterTool = (_, tool) => {
     this.setState({
       tool: tool
     })
   }
 
-  alterAlgo = (event, algo) => {
+  alterAlgo = (_, algo) => {
     this.setState({
       search: algo
     })
@@ -98,19 +99,21 @@ class App extends React.Component {
   }
 
   cellDragged = (event, x, y) => {
-    if (event.buttons === 1) {
+    try {
+      if (event.buttons === 1) {
 
-      const cols = this.state.cols
-      const tile = cols[x][y]
+        const cols = this.state.cols
+        const tile = cols[x][y]
 
-      if (tile.state === "goal" || tile.state === "start") return;
+        if (tile.state === "goal" || tile.state === "start") return;
 
-      cols[x][y].state = this.state.tool === "pen" ? "wall" : "blank"
+        cols[x][y].state = this.state.tool === "pen" ? "wall" : "blank"
 
-      this.setState({
-        cols: cols
-      });
-    }
+        this.setState({
+          cols: cols
+        });
+      }
+    } catch (Exception) { }
   }
 
   updateGrid = (array) => {
@@ -119,8 +122,10 @@ class App extends React.Component {
     });
   }
 
-  searchClicked = (event) => {
+  searchClicked = (_) => {
     if (!this.state.searching) {
+      this.forceUpdate();
+
       this.setState({
         searching: true
       })
@@ -172,6 +177,83 @@ class App extends React.Component {
     })
   }
 
+  onTileStartDrag = (e, type, x, y) => {
+    e.dataTransfer.setData('text', JSON.stringify([type, x, y]));
+    //To allow for reading data during the drag
+    e.dataTransfer.setData(type, "")
+    e.dataTransfer.dropEffect = 'none'
+    e.dataTransfer.effectAllowed = 'move'
+  }
+
+  onTileDrop = (e, x, y) => {
+    e.preventDefault()
+
+    let data = e
+    .dataTransfer
+    .getData('text');
+
+    data = JSON.parse(data)
+
+    let array = this.state.cols
+
+    let oldTile = array[x][y]
+    let newTile = array[data[1]][data[2]]
+    let oldState = oldTile.state
+    let newState = newTile.state
+
+    oldTile.state = newState
+    newTile.state = oldState
+    array[x][y] = oldTile
+    array[data[1]][data[2]] = newTile
+
+    array[x][y].extra = ""
+
+    if (newState === "start") {
+      this.setState({
+        cols: array,
+        start: [x, y]
+      });
+    } else {
+      this.setState({
+        cols: array,
+        goal: [x, y]
+      });
+    }
+  }
+
+  onTileDragEnter = (e, x, y) => {
+    let state = e
+    .dataTransfer
+    .types[1];
+
+    if (state === "start") {
+      const array = this.state.cols
+
+      array[x][y].extra = "starthover"
+
+      this.setState({
+        cols: array
+      })
+    } else {
+      const array = this.state.cols
+
+      array[x][y].extra = "goalhover"
+
+      this.setState({
+        cols: array
+      })
+    }
+  }
+
+  onTileDragExit = (_, x, y) => {
+    const array = this.state.cols
+
+    array[x][y].extra = ""
+
+    this.setState({
+      cols: array
+    })
+  }
 
   render() {
     return (
@@ -189,6 +271,10 @@ class App extends React.Component {
           grid={this.state.cols}
           cellClicked={this.cellClicked}
           cellDragged={this.cellDragged}
+          onTileStartDrag={this.onTileStartDrag}
+          onTileDrop={this.onTileDrop}
+          onTileDragEnter={this.onTileDragEnter}
+          onTileDragExit={this.onTileDragExit}
         />
       </div>
     );
