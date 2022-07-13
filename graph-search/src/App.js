@@ -180,6 +180,7 @@ function App() {
     }
 
     setCols(array)
+    forceRender()
   }
 
   /**
@@ -309,11 +310,13 @@ function App() {
         alterTool={(_, tool) => {
           setTool(tool)
         }}
-        searchClicked={searchClicked}/>
+        searchClicked={searchClicked}
+        clearSearch={searchResetGrid}/>
       <br />
       <MaterialGrid
         container
-        direction="row">
+        direction="row"
+        wrap="nowrap">
         <MaterialGrid 
           item 
           xs={2} 
@@ -323,7 +326,8 @@ function App() {
             marginRight: "10px",
             marginBottom: "10px",
             borderRadius: "15px",
-            height: "fit-content"
+            height: "fit-content",
+            minWidth: "220px"
             }}>
           <Typography variant="h5">Settings</Typography>
           <br/>
@@ -344,10 +348,10 @@ function App() {
 
           <br/>
           <Typography variant="h6">X size</Typography>
-          <Slider onChange={updateXSize } valueLabelDisplay="auto" aria-label="x-slider" defaultValue={Constant.COLUMNS} />
+          <Slider onChange={updateXSize } max={50} valueLabelDisplay="auto" aria-label="x-slider" defaultValue={Constant.COLUMNS} />
 
           <Typography variant="h6">Y size</Typography>
-          <Slider onChange={updateYSize } valueLabelDisplay="auto" aria-label="y-slider" defaultValue={Constant.ROWS} />
+          <Slider onChange={updateYSize } max={50} valueLabelDisplay="auto" aria-label="y-slider" defaultValue={Constant.ROWS} />
         </MaterialGrid>
         <div
           item
@@ -357,7 +361,10 @@ function App() {
             backgroundColor: "#E3E3E3",
             borderRadius: "15px",
             margin: "auto",
-            overflow: "auto"}}>
+            overflow: "auto",
+            overflowX: "auto",
+            width: "100%",
+            justifyContent: "center"}}>
           <Grid
             grid={cols}
             cellClicked={cellClicked}
