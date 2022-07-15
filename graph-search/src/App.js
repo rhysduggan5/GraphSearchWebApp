@@ -403,10 +403,10 @@ function App() {
           <br/>
 
           <Typography variant="h6">X size</Typography>
-          <Slider onChange={updateXSize } max={50} valueLabelDisplay="auto" aria-label="x-slider" defaultValue={Constant.COLUMNS} />
+          <Slider onChange={updateXSize } min={2} max={50} valueLabelDisplay="auto" aria-label="x-slider" defaultValue={Constant.COLUMNS} />
 
           <Typography variant="h6">Y size</Typography>
-          <Slider onChange={updateYSize } max={50} valueLabelDisplay="auto" aria-label="y-slider" defaultValue={Constant.ROWS} />
+          <Slider onChange={updateYSize } min={2} max={50} valueLabelDisplay="auto" aria-label="y-slider" defaultValue={Constant.ROWS} />
         </MaterialGrid>
         <div
           item
