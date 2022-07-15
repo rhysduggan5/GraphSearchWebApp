@@ -7,6 +7,8 @@ import { depthFirstSearch } from './searchAlgorithms/DepthFirstSearch'
 import { bestFirstSearch } from './searchAlgorithms/BestFirstSearch'
 import { aStarSearch } from './searchAlgorithms/AStarSearch'
 
+import { primGeneration } from './mazeGenerationAlgorithms/PrimGen'
+
 import { generateCells, useForceRender } from './Utils'
 import * as Constant from './Constants'
 
@@ -30,6 +32,8 @@ function App() {
   const [goal, setGoal] = useState(initialData[2])
   const [search, setSearch] = useState("breadthfirstsearch")
   const [searching, setSearching] = useState(false)
+  const [mazeAlgorithm, setMazeAlgorithm] = useState("prim")
+  const [generating, setGenerating] = useState(false)
 
   //Rerenderer
   const forceRender = useForceRender()
@@ -159,6 +163,26 @@ function App() {
         case "astarsearch":
           aStarSearch(cols, start, goal, updateGrid, () => setSearching(false))
           break;
+        default:
+          return
+      }
+    }
+  }
+
+  /**
+   * Function to handle generating a maze
+   * @param {*} _ Ignored event of the click
+   */
+   const mazeGenClicked = (_) => {
+    //Ensure only one search can happen at once
+    if (!generating) {
+      setGenerating(true)
+
+      //Activate the search 
+      switch (mazeAlgorithm) {
+        case "prim":
+          primGeneration(cols, start, (x, y) => setGoal([x, y]), updateGrid, () => setGenerating(false))
+          return
         default:
           return
       }
@@ -310,6 +334,7 @@ function App() {
         alterTool={(_, tool) => {
           setTool(tool)
         }}
+        generateClicked={mazeGenClicked}
         searchClicked={searchClicked}
         clearSearch={searchResetGrid}/>
       <br />
@@ -332,7 +357,7 @@ function App() {
           <Typography variant="h5">Settings</Typography>
           <br/>
           <FormControl>
-            <FormLabel id="algo-selection">Algorithm</FormLabel>
+            <FormLabel id="algo-selection">Search Algorithm</FormLabel>
             <RadioGroup
               row
               aria-labelledby="algorithm-selection"
@@ -343,6 +368,18 @@ function App() {
               <FormControlLabel value="depthfirstsearch" control={<Radio />} label="Depth First Search" />
               <FormControlLabel value="bestfirstsearch" control={<Radio />} label="Best First Search" />
               <FormControlLabel value="astarsearch" control={<Radio />} label="A* Search" />
+            </RadioGroup>
+          </FormControl>
+
+          <FormControl>
+            <FormLabel id="algo-selection">Maze Generation Algorithm</FormLabel>
+            <RadioGroup
+              row
+              aria-labelledby="maze-algorithm-selection"
+              name="maze-algorithm-selection"
+              defaultValue="prim"
+              onChange={(_, value) => {setMazeAlgorithm(value)}}>
+              <FormControlLabel value="prim" control={<Radio />} label="Prim" />
             </RadioGroup>
           </FormControl>
 

@@ -153,3 +153,18 @@ export const useForceRender = () => {
   const [, forceRender] = useReducer(x => !x, true)
   return forceRender
 }
+
+export const getWalls = (array, cell) => {
+
+  const neighbours = getGraphNeighbours(array, [cell]);
+
+  const walls = []
+
+  for (let i = 0; i < neighbours.length; i++) {
+    if (neighbours[i] !== undefined && neighbours[i].state === "wall") {
+      walls.push(neighbours[i]);
+    }
+  }
+
+  return walls;
+} 

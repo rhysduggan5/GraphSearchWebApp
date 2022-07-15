@@ -1,4 +1,4 @@
-import { Clear, Delete, Edit, FitnessCenter, Search } from '@mui/icons-material'
+import { AddCircle, Clear, Delete, Edit, FitnessCenter, Search } from '@mui/icons-material'
 import { Button, ToggleButtonGroup, ToggleButton, Typography } from '@mui/material'
 
 import React from 'react'
@@ -49,6 +49,14 @@ const Buttons = (props) => {
           </ToggleButton>
         </ToggleButtonGroup>
       </div>
+
+      <Button 
+        onClick={props.generateClicked} 
+        variant="outlined" 
+        startIcon={<AddCircle />}
+        className="toolbarButton">
+        Generate Maze
+      </Button>
 
       <Button 
         onClick={props.searchClicked} 
