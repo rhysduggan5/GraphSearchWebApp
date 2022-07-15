@@ -3,7 +3,7 @@ import {euclideanDistance, sleep, getGraphNeighbours} from '../Utils'
 
 const FastPriorityQueue = require('fastpriorityqueue');
 
-export const bestFirstSearch = async (array, start, goal, updateFunction, resetFunction) => {
+export const bestFirstSearch = async (array, start, goal, animate, updateFunction, resetFunction) => {
   let path = [array[start[0]][start[1]]];
 
   const queue = new FastPriorityQueue(function(a, b) {
@@ -55,7 +55,9 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
 
   updateFunction(array);
 
-  await sleep(15);
+  if (animate) {
+    await sleep(15);
+  }
 
   while (queue.length !== 0 || lookingAt !== undefined) {
     path = lookingAt;
@@ -111,7 +113,9 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
 
     updateFunction(array);
 
-    await sleep(15);
+    if (animate) {
+      await sleep(15);
+    }
   }
 
   if (found) {
@@ -127,7 +131,9 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
 
     updateFunction(array);
 
-    await sleep(15);
+    if (animate) {
+      await sleep(15);
+    }
 
     for (let i = lookingAt.length - 1; i >= 0; i--) {
       let pathTile = lookingAt[i]
@@ -137,7 +143,9 @@ export const bestFirstSearch = async (array, start, goal, updateFunction, resetF
 
         updateFunction(array)
 
-        await sleep(20);
+        if (animate) {
+          await sleep(20);
+        }
       }
     }
   } else {

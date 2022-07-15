@@ -16,7 +16,14 @@ import React, { useState } from 'react'
 
 import { Grid as MaterialGrid, Slider } from '@mui/material'
 
-import { Typography, FormControl, FormLabel, RadioGroup, FormControlLabel, Radio } from '@mui/material'
+import { Typography, 
+  FormControl, 
+  FormLabel, 
+  RadioGroup, 
+  FormControlLabel, 
+  Radio,
+  Checkbox,
+  FormGroup } from '@mui/material'
 
 
 function App() {
@@ -30,6 +37,7 @@ function App() {
   const [tool, setTool] = useState("pen")
   const [start, setStart] = useState(initialData[1])
   const [goal, setGoal] = useState(initialData[2])
+  const [animate, setAnimate] = useState(true)
   const [search, setSearch] = useState("breadthfirstsearch")
   const [searching, setSearching] = useState(false)
   const [mazeAlgorithm, setMazeAlgorithm] = useState("prim")
@@ -152,16 +160,16 @@ function App() {
       //Activate the search 
       switch (search) {
         case "breadthfirstsearch":
-          breadthFirstSearch(cols, start, updateGrid, () => setSearching(false))
+          breadthFirstSearch(cols, start, animate, updateGrid, () => setSearching(false))
           return
         case "depthfirstsearch":
-          depthFirstSearch(cols, start, updateGrid, () => setSearching(false))
+          depthFirstSearch(cols, start, animate, updateGrid, () => setSearching(false))
           return
         case "bestfirstsearch":
-          bestFirstSearch(cols, start, goal, updateGrid, () => setSearching(false))
+          bestFirstSearch(cols, start, goal, animate, updateGrid, () => setSearching(false))
           break;
         case "astarsearch":
-          aStarSearch(cols, start, goal, updateGrid, () => setSearching(false))
+          aStarSearch(cols, start, goal, animate, updateGrid, () => setSearching(false))
           break;
         default:
           return
@@ -178,10 +186,12 @@ function App() {
     if (!generating) {
       setGenerating(true)
 
+      searchResetGrid()
+
       //Activate the search 
       switch (mazeAlgorithm) {
         case "prim":
-          primGeneration(cols, start, (x, y) => setGoal([x, y]), updateGrid, () => setGenerating(false))
+          primGeneration(cols, start, animate, (x, y) => setGoal([x, y]), updateGrid, () => setGenerating(false))
           return
         default:
           return
@@ -384,6 +394,14 @@ function App() {
           </FormControl>
 
           <br/>
+          <FormGroup>
+            <FormControlLabel control={
+              <Checkbox checked={animate} onChange={(_, value) => setAnimate(value)} defaultChecked />
+              } label="Animate" />
+          </FormGroup>
+
+          <br/>
+
           <Typography variant="h6">X size</Typography>
           <Slider onChange={updateXSize } max={50} valueLabelDisplay="auto" aria-label="x-slider" defaultValue={Constant.COLUMNS} />
 

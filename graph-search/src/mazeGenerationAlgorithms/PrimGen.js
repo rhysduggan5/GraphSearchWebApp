@@ -1,7 +1,7 @@
 import {sleep, getWalls, shuffle, getGraphNeighbours} from '../Utils'
 
 
-export const primGeneration = async (array, start, updateGoal, updateFunction, resetFunction) => {
+export const primGeneration = async (array, start, animate, updateGoal, updateFunction, resetFunction) => {
   
   for (let x = 0; x < array.length; x++) {
     for (let y = 0; y < array[0].length; y++) {
@@ -42,7 +42,9 @@ export const primGeneration = async (array, start, updateGoal, updateFunction, r
       walls = walls.concat(getWalls(array, array[wall.xPos][wall.yPos]));
     }
 
-    await sleep(10);
+    if (animate) {
+      await sleep(10);
+    }
 
     updateFunction(array)
   }

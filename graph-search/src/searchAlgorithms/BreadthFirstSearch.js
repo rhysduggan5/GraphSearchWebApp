@@ -2,7 +2,7 @@ import * as Constants from '../Constants'
 
 import {sleep, getGraphNeighbours} from '../Utils'
 
-export const breadthFirstSearch = async (array, start, updateFunction, resetFunction) => {
+export const breadthFirstSearch = async (array, start, animate, updateFunction, resetFunction) => {
 
   let path = [array[start[0]][start[1]]];
 
@@ -50,7 +50,9 @@ export const breadthFirstSearch = async (array, start, updateFunction, resetFunc
 
   updateFunction(array);
 
-  await sleep(15);
+  if (animate) {
+    await sleep(15);
+  }
 
   while (queue.length !== 0 || lookingAt !== undefined) {
     path = lookingAt;
@@ -104,7 +106,9 @@ export const breadthFirstSearch = async (array, start, updateFunction, resetFunc
 
     updateFunction(array);
 
-    await sleep(15);
+    if (animate) {
+      await sleep(15);
+    }
   }
 
   if (found) {
@@ -120,7 +124,9 @@ export const breadthFirstSearch = async (array, start, updateFunction, resetFunc
 
     updateFunction(array);
 
-    await sleep(15);
+    if (animate) {
+      await sleep(15);
+    }
 
     for(let i = lookingAt.length - 1; i >= 0; i--) {
       let pathTile = lookingAt[i]
@@ -130,7 +136,9 @@ export const breadthFirstSearch = async (array, start, updateFunction, resetFunc
 
         updateFunction(array)
 
-        await sleep(20);
+        if (animate) {
+          await sleep(20);
+        }
       }
     }
   } else {
