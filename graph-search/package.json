@@ -1,6 +1,7 @@
 {
   "name": "graph-search",
   "version": "0.1.0",
+  "homepage": "https://rhysduggan5.github.io/GraphSearchWebApp",
   "private": true,
   "dependencies": {
     "@chakra-ui/react": "^2.2.4",
@@ -13,6 +14,7 @@
     "@testing-library/user-event": "^13.2.1",
     "fastpriorityqueue": "^0.7.2",
     "framer-motion": "^6.5.1",
+    "gh-pages": "^4.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -22,6 +24,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "deploy": "gh-pages -b master -d build",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
