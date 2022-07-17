@@ -16,7 +16,7 @@ const Buttons = (props) => {
     }}>
       <Button 
         onClick={props.resetGrid} 
-        variant="outlined" 
+        variant="contained" 
         startIcon={<Delete />}
         className="toolbarButton">
         Reset Grid
@@ -52,7 +52,7 @@ const Buttons = (props) => {
 
       <Button 
         onClick={props.generateClicked} 
-        variant="outlined" 
+        variant="contained" 
         startIcon={<AddCircle />}
         className="toolbarButton">
         Generate Maze
@@ -60,7 +60,7 @@ const Buttons = (props) => {
 
       <Button 
         onClick={props.searchClicked} 
-        variant="outlined" 
+        variant="contained" 
         startIcon={<Search />}
         className="toolbarButton">
         Search
@@ -68,7 +68,7 @@ const Buttons = (props) => {
 
       <Button 
         onClick={props.clearSearch} 
-        variant="outlined" 
+        variant="contained" 
         startIcon={<Clear />}
         className="toolbarButton">
         Clear Search

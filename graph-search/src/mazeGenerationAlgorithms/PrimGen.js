@@ -24,6 +24,11 @@ export const primGeneration = async (array, start, animate, updateGoal, updateFu
 
     const wall = walls.pop();
 
+    const wallX = wall.xPos;
+    const wallY = wall.yPos;
+    let tileX = 0;
+    let tileY = 0;
+
     const neighbours = getGraphNeighbours(array, [wall]);
 
     var tiles = 0;
@@ -31,15 +36,32 @@ export const primGeneration = async (array, start, animate, updateGoal, updateFu
     for (let i = 0; i < neighbours.length; i++) {
       if (neighbours[i] !== undefined && neighbours[i].state !== "wall") {
         tiles++;
+        tileX = neighbours[i].xPos;
+        tileY = neighbours[i].yPos;
       }
     }
 
+    // Positive difference is down
+    const xDiff = wallX - tileX;
+    //Positive difference is right
+    const yDiff = wallY - tileY;
+
     if (tiles <= 1) {
       array[wall.xPos][wall.yPos].state = "blank";
+      try {
+        const newBlank = array[wall.xPos + xDiff][wall.yPos + yDiff];
+        array[newBlank.xPos][newBlank.yPos].state = "blank";
 
-      blanks.push(wall);
+        blanks.push(wall);
+        blanks.push(newBlank);
 
-      walls = walls.concat(getWalls(array, array[wall.xPos][wall.yPos]));
+        walls = walls.concat(getWalls(array, array[newBlank.xPos][newBlank.yPos]));
+      } catch (exception) {
+        console.log(exception);
+        array[wall.xPos][wall.yPos].state = "blank";
+        blanks.push(wall);
+        walls = walls.concat(getWalls(array, array[wall.xPos][wall.yPos]));
+      }
     }
 
     if (animate) {
