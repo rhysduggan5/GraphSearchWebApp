@@ -9,12 +9,14 @@ import { aStarSearch } from './searchAlgorithms/AStarSearch'
 
 import { primGeneration } from './mazeGenerationAlgorithms/PrimGen'
 
+import { useWindowDimensions } from './WindowSize'
+
 import { generateCells, useForceRender } from './Utils'
-import * as Constant from './Constants'
 
 import React, { useState } from 'react'
 
-import { Clear, FitnessCenter, Edit } from '@mui/icons-material'
+import { Edit } from '@mui/icons-material'
+import { EraserIcon, WeightIcon } from './icons/Icons'
 import { Grid as MaterialGrid, Slider, createTheme, ThemeProvider, ToggleButton, ToggleButtonGroup } from '@mui/material'
 
 import { Typography, 
@@ -28,9 +30,17 @@ import { Typography,
 
 
 function App() {
+  let { height, width } = useWindowDimensions();
+
+  height -= 220;
+  width -= 350;
+
+  let columns = Math.floor(height / 25)
+  let rows = Math.floor(width / 25)
+
   //Create hooks for all state values
-  const [xSize, setXSize] = useState(Constant.COLUMNS)
-  const [ySize, setYSize] = useState(Constant.ROWS)
+  const [xSize, setXSize] = useState(columns)
+  const [ySize, setYSize] = useState(rows)
 
   //Initial grid on load
   const initialData = generateCells(xSize, ySize)
@@ -392,12 +402,12 @@ function App() {
                 <ToggleButton sx={{
                   color: "#72757e"
                 }} color="primary" value="heavypen" aria-label="heavypen">
-                  <FitnessCenter/>
+                  <WeightIcon/>
                 </ToggleButton>
                 <ToggleButton sx={{
                   color: "#72757e"
                 }} color="primary" value="eraser" aria-label="eraser">
-                  <Clear/>
+                  <EraserIcon/>
                 </ToggleButton>
               </ToggleButtonGroup>
             </ThemeProvider>
@@ -497,14 +507,14 @@ function App() {
             color: "#fffffe"
           }}>X size</Typography>
           <ThemeProvider theme={theme}>
-            <Slider color="primary" onChange={updateXSize } min={2} max={50} valueLabelDisplay="auto" aria-label="x-slider" defaultValue={Constant.COLUMNS} />
+            <Slider color="primary" onChange={updateXSize } min={2} max={50} valueLabelDisplay="auto" aria-label="x-slider" defaultValue={columns} />
           </ThemeProvider>
 
           <Typography variant="h6" style={{
             color: "#fffffe"
           }}>Y size</Typography>
           <ThemeProvider theme={theme}>
-            <Slider color="primary" onChange={updateYSize } min={2} max={50} valueLabelDisplay="auto" aria-label="y-slider" defaultValue={Constant.ROWS} />
+            <Slider color="primary" onChange={updateYSize } min={2} max={50} valueLabelDisplay="auto" aria-label="y-slider" defaultValue={rows} />
           </ThemeProvider>
         </MaterialGrid>
         <div

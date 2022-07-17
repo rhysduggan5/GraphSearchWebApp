@@ -59,7 +59,7 @@ export const primGeneration = async (array, start, animate, updateGoal, updateFu
       } catch (exception) {
         array[wall.xPos][wall.yPos].state = "blank";
         blanks.push(wall);
-        walls = walls.concat(getWalls(array, array[wall.xPos][wall.yPos]));
+        //walls = walls.concat(getWalls(array, array[wall.xPos][wall.yPos]));
       }
     }
 

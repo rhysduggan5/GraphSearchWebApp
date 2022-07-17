@@ -1,7 +1,8 @@
-import { AddCircle, Clear, Delete, Search } from '@mui/icons-material'
+import { Clear, Delete, Search } from '@mui/icons-material'
 import { Button } from './Button'
 
 import React from 'react'
+import { MazeIcon } from '../icons/Icons'
 
 const Buttons = (props) => {
 
@@ -21,7 +22,7 @@ const Buttons = (props) => {
 
       <Button 
         onClick={props.generateClicked} 
-        startIcon={<AddCircle />}
+        startIcon={<MazeIcon />}
         text="Generate Maze"/>
 
       <Button 

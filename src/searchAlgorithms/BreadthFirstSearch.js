@@ -1,5 +1,3 @@
-import * as Constants from '../Constants'
-
 import {sleep, getGraphNeighbours} from '../Utils'
 
 export const breadthFirstSearch = async (array, start, animate, updateFunction, resetFunction) => {
@@ -114,8 +112,8 @@ export const breadthFirstSearch = async (array, start, animate, updateFunction, 
   if (found) {
     array[tile.xPos][tile.yPos].extra = "searched";
 
-    for (let x = 0; x < Constants.ROWS; x++) {
-      for (let y = 0; y < Constants.COLUMNS; y++) {
+    for (let x = 0; x < array.length; x++) {
+      for (let y = 0; y < array[0].length; y++) {
         if (array[x][y].extra === "lookingAt") {
           array[x][y].extra = "searched"
         }
