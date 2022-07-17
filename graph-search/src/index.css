@@ -2,6 +2,7 @@
 
 body {
   font-family: 'Roboto', sans-serif;
+  background-color: #16161a;
 }
 
 * {
@@ -40,3 +41,6 @@ body {
   margin-right: 10px !important;
 }
 
+.secondaryText {
+  color: "#94a1b2" !important;
+}

@@ -4,7 +4,10 @@ import Cell from './Cell'
 const Grid = (props) => {
 
   return (
-    <div className='grid'>
+    <div className='grid' style={{
+      borderColor: "#72757e",
+      border: "2px"
+    }}>
       {props.grid.map((col, colNumber) => <div key={`col:${colNumber}`} className='col'>
         {col.map(val => <Cell
           key={`tile:${val.xPos}:${val.yPos}`}

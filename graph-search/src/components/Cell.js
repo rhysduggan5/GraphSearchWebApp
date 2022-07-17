@@ -1,8 +1,7 @@
-import { FitnessCenter } from '@mui/icons-material'
+import { WeightIcon } from '../icons/Icons'
 import React from 'react'
 
 const Cell = (props) => {
-
 
   const backgroundColorGen = (state, extra) => {
     switch (extra) {
@@ -11,11 +10,11 @@ const Cell = (props) => {
       case "goalhover":
         return "rgba(256, 0, 0, 0.5)"
       case "inQueue":
-        return "grey"
+        return "rgba(255, 255, 255, 0.4)"
       case "searched":
-        return "darkgrey"
+        return "rgba(255, 255, 255, 0.6)"
       case "path":
-        return "purple"
+        return "#7f5af0"
       case "lookingAt":
         return "blue"
       default:
@@ -38,16 +37,25 @@ const Cell = (props) => {
     }
   }
 
-  const borderColorGen = (state) => {
+  const borderColorGen = (state, extra) => {
+    switch (extra) {
+      case "inQueue":
+        return "rgb(115, 115, 118)"
+      case "path":
+        return "#7f5af0"
+      default:
+        break;
+    }
+
     switch (state) {
       case "blank":
         return "#888"
       case "wall":
-        return "#888"
+        return "black"
       case "start":
-        return "rgb(37, 109, 37)"
+        return "green"
       case "goal":
-        return "rgb(168, 36, 36)"
+        return "red"
       default:
         return "#888"
     }
@@ -55,7 +63,7 @@ const Cell = (props) => {
 
   const cellStyle = {
     backgroundColor: backgroundColorGen(props.state, props.extra),
-    border: "solid 1px " + borderColorGen(props.state)
+    border: "solid 1px " + borderColorGen(props.state, props.extra)
   }
 
   if (props.state === "start" || props.state === "goal") {
@@ -91,7 +99,7 @@ const Cell = (props) => {
           props.onTileDragExit(e, props.xPos, props.yPos)
         }}>
 
-        {props.state === "heavyfloor" ? <FitnessCenter /> : <div />}
+        {props.state === "heavyfloor" ? <WeightIcon /> : <div />}
 
       </div>
     )

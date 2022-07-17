@@ -14,7 +14,8 @@ import * as Constant from './Constants'
 
 import React, { useState } from 'react'
 
-import { Grid as MaterialGrid, Slider } from '@mui/material'
+import { Clear, FitnessCenter, Edit } from '@mui/icons-material'
+import { Grid as MaterialGrid, Slider, createTheme, ThemeProvider, ToggleButton, ToggleButtonGroup } from '@mui/material'
 
 import { Typography, 
   FormControl, 
@@ -329,21 +330,25 @@ function App() {
     resetGrid();
   }
 
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: '#7f5af0',
+      },
+    },
+  });
+
   return (
     <div style={{
       margin: "15px",
       padding: "15px",
-      backgroundColor: "#F3F3F3",
+      backgroundColor: "#242629",
       borderRadius: "15px"
     }}>
       <Header />
       <br />
       <Buttons
         resetGrid={resetGrid}
-        tool={tool}
-        alterTool={(_, tool) => {
-          setTool(tool)
-        }}
         generateClicked={mazeGenClicked}
         searchClicked={searchClicked}
         clearSearch={searchResetGrid}/>
@@ -356,7 +361,7 @@ function App() {
           item 
           xs={2} 
           style={{
-            backgroundColor: "#E3E3E3",
+            backgroundColor: "#16161a",
             padding: "15px",
             marginRight: "10px",
             marginBottom: "10px",
@@ -364,56 +369,150 @@ function App() {
             height: "fit-content",
             minWidth: "220px"
             }}>
-          <Typography variant="h5">Settings</Typography>
+          <div style={{
+            display: "flex",
+            alignItems: "center"
+          }}>
+            <ThemeProvider theme={theme}>
+              <ToggleButtonGroup
+                value={tool}
+                aria-label="text formatting"
+                exclusive
+                onChange={(_, tool) => {
+                  setTool(tool)
+                }}
+                style={{marginRight:"10px"}}
+                size="small"
+                >
+                <ToggleButton sx={{
+                  color: "#72757e"
+                }} color="primary" value="pen" aria-label="pen">
+                  <Edit/>
+                </ToggleButton>
+                <ToggleButton sx={{
+                  color: "#72757e"
+                }} color="primary" value="heavypen" aria-label="heavypen">
+                  <FitnessCenter/>
+                </ToggleButton>
+                <ToggleButton sx={{
+                  color: "#72757e"
+                }} color="primary" value="eraser" aria-label="eraser">
+                  <Clear/>
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </ThemeProvider>
+          </div>
+          <br/>
+          <FormGroup>
+            <FormControlLabel className="secondaryText" control={
+              <Checkbox sx={{
+                color: "#72757e",
+                '&.Mui-checked': {
+                  color: "#7f5af0",
+                },
+              }} checked={animate} onChange={
+                (_, value) => setAnimate(value)} defaultChecked />
+              } label={
+                <p style={{color: "#94a1b2"}}> 
+                  Animate
+                </p>
+              } />
+          </FormGroup>
           <br/>
           <FormControl>
-            <FormLabel id="algo-selection">Search Algorithm</FormLabel>
+            <FormLabel id="algo-selection" style={{
+              color: "#fffffe"
+            }}>Search Algorithm</FormLabel>
+            <br/>
             <RadioGroup
               row
               aria-labelledby="algorithm-selection"
               name="algorithm-selection"
               defaultValue="breadthfirstsearch"
               onChange={(_, value) => {setSearch(value)}}>
-              <FormControlLabel value="breadthfirstsearch" control={<Radio />} label="Breadth First Search" />
-              <FormControlLabel value="depthfirstsearch" control={<Radio />} label="Depth First Search" />
-              <FormControlLabel value="bestfirstsearch" control={<Radio />} label="Best First Search" />
-              <FormControlLabel value="astarsearch" control={<Radio />} label="A* Search" />
+              <FormControlLabel value="breadthfirstsearch" control={
+                <Radio sx={{
+                  color: "#72757e",
+                  '&.Mui-checked': {
+                    color: "#7f5af0",
+                  },
+                }}/>
+              } label={<p style={{color: "#94a1b2"}}>Breadth First Search</p>} />
+              <FormControlLabel className="secondaryText" value="depthfirstsearch" control={
+                <Radio sx={{
+                  color: "#72757e",
+                  '&.Mui-checked': {
+                    color: "#7f5af0",
+                  },
+                }}/>
+              } label={<p style={{color: "#94a1b2"}}>Depth First Search</p>} />
+              <FormControlLabel className="secondaryText" value="bestfirstsearch" control={
+                <Radio sx={{
+                  color: "#72757e",
+                  '&.Mui-checked': {
+                    color: "#7f5af0",
+                  },
+                }}/>
+              } label={<p style={{color: "#94a1b2"}}>Best First Search</p>} />
+              <FormControlLabel className="secondaryText" value="astarsearch" control={
+                <Radio sx={{
+                  color: "#72757e",
+                  '&.Mui-checked': {
+                    color: "#7f5af0",
+                  },
+                }}/>
+              } label={<p style={{color: "#94a1b2"}}>A* Search</p>} />
             </RadioGroup>
+            <br/>
           </FormControl>
 
+          <br/>
+
           <FormControl>
-            <FormLabel id="algo-selection">Maze Generation Algorithm</FormLabel>
+            <FormLabel id="algo-selection" style={{
+              color: "#fffffe"
+            }}>Maze Generation Algorithm</FormLabel>
+            <br/>
             <RadioGroup
               row
               aria-labelledby="maze-algorithm-selection"
               name="maze-algorithm-selection"
               defaultValue="prim"
               onChange={(_, value) => {setMazeAlgorithm(value)}}>
-              <FormControlLabel value="prim" control={<Radio />} label="Prim" />
+              <FormControlLabel value="prim" control={
+                <Radio sx={{
+                  color: "#72757e",
+                  '&.Mui-checked': {
+                    color: "#7f5af0",
+                  },
+                }}/>
+              } label={<p style={{color: "#94a1b2"}}>Prim</p>} />
             </RadioGroup>
+            <br/>
           </FormControl>
 
           <br/>
-          <FormGroup>
-            <FormControlLabel control={
-              <Checkbox checked={animate} onChange={(_, value) => setAnimate(value)} defaultChecked />
-              } label="Animate" />
-          </FormGroup>
 
-          <br/>
+          <Typography variant="h6" style={{
+            color: "#fffffe"
+          }}>X size</Typography>
+          <ThemeProvider theme={theme}>
+            <Slider color="primary" onChange={updateXSize } min={2} max={50} valueLabelDisplay="auto" aria-label="x-slider" defaultValue={Constant.COLUMNS} />
+          </ThemeProvider>
 
-          <Typography variant="h6">X size</Typography>
-          <Slider onChange={updateXSize } min={2} max={50} valueLabelDisplay="auto" aria-label="x-slider" defaultValue={Constant.COLUMNS} />
-
-          <Typography variant="h6">Y size</Typography>
-          <Slider onChange={updateYSize } min={2} max={50} valueLabelDisplay="auto" aria-label="y-slider" defaultValue={Constant.ROWS} />
+          <Typography variant="h6" style={{
+            color: "#fffffe"
+          }}>Y size</Typography>
+          <ThemeProvider theme={theme}>
+            <Slider color="primary" onChange={updateYSize } min={2} max={50} valueLabelDisplay="auto" aria-label="y-slider" defaultValue={Constant.ROWS} />
+          </ThemeProvider>
         </MaterialGrid>
         <div
           item
           xs={10}
           style={{
             padding: "25px",
-            backgroundColor: "#E3E3E3",
+            backgroundColor: "#16161a",
             borderRadius: "15px",
             margin: "auto",
             overflow: "auto",
