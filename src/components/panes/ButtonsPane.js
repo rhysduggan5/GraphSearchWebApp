@@ -4,7 +4,7 @@ import { Button, LoadingButton } from '../Button'
 import React from 'react'
 import { MazeIcon } from '../../icons/Icons'
 
-const Buttons = (props) => {
+const ButtonsPane = (props) => {
 
   return (
     <div style={{
@@ -40,4 +40,4 @@ const Buttons = (props) => {
   )
 }
 
-export default Buttons
+export default ButtonsPane
