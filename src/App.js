@@ -1,6 +1,6 @@
 import Header from './components/Header'
 import Grid from './components/Grid'
-import Buttons from './components/Buttons'
+import Buttons from './components/panes/ButtonsPane'
 
 import { breadthFirstSearch } from './searchAlgorithms/BreadthFirstSearch'
 import { depthFirstSearch } from './searchAlgorithms/DepthFirstSearch'
@@ -361,7 +361,9 @@ function App() {
         resetGrid={resetGrid}
         generateClicked={mazeGenClicked}
         searchClicked={searchClicked}
-        clearSearch={searchResetGrid}/>
+        clearSearch={searchResetGrid}
+        searching={searching}
+        generating={generating}/>
       <br />
       <MaterialGrid
         container

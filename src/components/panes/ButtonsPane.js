@@ -1,8 +1,8 @@
 import { Clear, Delete, Search } from '@mui/icons-material'
-import { Button } from './Button'
+import { Button, LoadingButton } from '../Button'
 
 import React from 'react'
-import { MazeIcon } from '../icons/Icons'
+import { MazeIcon } from '../../icons/Icons'
 
 const Buttons = (props) => {
 
@@ -20,15 +20,17 @@ const Buttons = (props) => {
         startIcon={<Delete />}
         text="Reset Grid"/>
 
-      <Button 
+      <LoadingButton 
         onClick={props.generateClicked} 
         startIcon={<MazeIcon />}
-        text="Generate Maze"/>
+        text="Generate Maze"
+        loading={props.generating}/>
 
-      <Button 
+      <LoadingButton 
         onClick={props.searchClicked}
         startIcon={<Search />}
-        text="Search"/>
+        text="Search"
+        loading={props.searching}/>
 
       <Button 
         onClick={props.clearSearch}
