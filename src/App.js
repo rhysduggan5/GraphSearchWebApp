@@ -23,7 +23,7 @@ import { SettingsPane } from './components/panes/SettingsPane'
 function App() {
   let { height, width } = useWindowDimensions();
 
-  height -= 220;
+  height -= 250;
   width -= 350;
 
   let columns = Math.floor(height / 25)
@@ -344,17 +344,9 @@ function App() {
       margin: "15px",
       padding: "15px",
       backgroundColor: "#242629",
-      borderRadius: "15px"
+      borderRadius: "15px",
     }}>
       <Header />
-      <br />
-      <ButtonsPane
-        resetGrid={resetGrid}
-        generateClicked={mazeGenClicked}
-        searchClicked={searchClicked}
-        clearSearch={searchResetGrid}
-        searching={searching}
-        generating={generating}/>
       <br />
       <MaterialGrid
         container
@@ -372,26 +364,41 @@ function App() {
           updateYSize={updateYSize}
           columns={columns}
           rows={rows}/>
+
         <div
           item
           xs={10}
           style={{
-            padding: "25px",
-            backgroundColor: "#16161a",
-            borderRadius: "15px",
-            margin: "auto",
             overflow: "auto",
             overflowX: "auto",
-            width: "100%",
-            justifyContent: "center"}}>
-          <Grid
-            grid={cols}
-            cellClicked={cellClicked}
-            cellDragged={cellDragged}
-            onTileStartDrag={onTileStartDrag}
-            onTileDrop={onTileDrop}
-            onTileDragEnter={onTileDragEnter}
-            onTileDragExit={onTileDragExit}/>
+          }}>
+          <ButtonsPane
+              resetGrid={resetGrid}
+              generateClicked={mazeGenClicked}
+              searchClicked={searchClicked}
+              clearSearch={searchResetGrid}
+              searching={searching}
+              generating={generating}/>
+          <br/>
+          <div
+            style={{
+              padding: "25px",
+              backgroundColor: "#16161a",
+              borderRadius: "15px",
+              margin: "auto",
+              overflow: "auto",
+              overflowX: "auto",
+              width: "100%",
+              justifyContent: "center"}}>
+            <Grid
+              grid={cols}
+              cellClicked={cellClicked}
+              cellDragged={cellDragged}
+              onTileStartDrag={onTileStartDrag}
+              onTileDrop={onTileDrop}
+              onTileDragEnter={onTileDragEnter}
+              onTileDragExit={onTileDragExit}/>
+          </div>
         </div>
       </MaterialGrid>
     </div>
