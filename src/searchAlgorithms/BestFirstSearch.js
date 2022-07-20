@@ -76,9 +76,9 @@ export const bestFirstSearch = async (array, start, goal, animate, updateFunctio
       tempPath.push(neighbour)
       queue.add([tempPath, distance]);
 
-      if (neighbour.state !== "goal") {
-        array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
-      }
+      if (neighbour.xPos === goal[0] && neighbour.yPos === goal[1]) continue;
+
+      array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
     }
 
     tile = path.pop()
@@ -99,11 +99,11 @@ export const bestFirstSearch = async (array, start, goal, animate, updateFunctio
     }
 
     //Since we use arrays, we get a different error than the other files
-    if (queue.peek() === undefined) {
+    if (queue.peek() === undefined && closedList[lookingAtTile.xPos][lookingAtTile.yPos] === 1) {
       break;
     }
 
-    if (lookingAtTile.state === "goal") {
+    if (lookingAtTile.xPos === goal[0] && lookingAtTile.yPos === goal[1]) {
       found = true;
       break;
     }

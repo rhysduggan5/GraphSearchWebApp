@@ -1,6 +1,7 @@
 import Header from './components/Header'
 import Grid from './components/Grid'
 import ButtonsPane from './components/panes/ButtonsPane'
+import SettingsPane from './components/panes/SettingsPane'
 
 import { breadthFirstSearch } from './searchAlgorithms/BreadthFirstSearch'
 import { depthFirstSearch } from './searchAlgorithms/DepthFirstSearch'
@@ -16,9 +17,6 @@ import { generateCells, useForceRender } from './Utils'
 import React, { useState } from 'react'
 
 import { Grid as MaterialGrid,  createTheme } from '@mui/material'
-
-import { SettingsPane } from './components/panes/SettingsPane'
-
 
 function App() {
   let { height, width } = useWindowDimensions();
@@ -44,6 +42,7 @@ function App() {
   const [searching, setSearching] = useState(false)
   const [mazeAlgorithm, setMazeAlgorithm] = useState("prim")
   const [generating, setGenerating] = useState(false)
+  const [searched, setSearched] = useState(false)
 
   //Rerenderer
   const forceRender = useForceRender()
@@ -55,9 +54,10 @@ function App() {
   const resetGrid = () => {
     const data = generateCells(xSize, ySize)
 
-    setCols(data[0])
-    setStart(data[1])
-    setGoal(data[2])
+    setCols(data[0]);
+    setStart(data[1]);
+    setGoal(data[2]);
+    setSearched(false);
   }
 
   /**
@@ -151,10 +151,12 @@ function App() {
    * Function to handle activating a search of the grid
    * @param {*} _ Ignored event of the click
    */
-  const searchClicked = (_) => {
+  const searchClicked = (_, a = animate, s = start, g = goal) => {
+
     //Ensure only one search can happen at once
-    if (!searching) {
+    if (!searching && !generating) {
       setSearching(true)
+      setSearched(false)
 
       //Remove any previous search updates
       searchResetGrid()
@@ -162,20 +164,22 @@ function App() {
       //Activate the search 
       switch (search) {
         case "breadthfirstsearch":
-          breadthFirstSearch(cols, start, animate, updateGrid, () => setSearching(false))
-          return
+          breadthFirstSearch(cols, s, g, a, updateGrid, () => setSearching(false))
+          break;
         case "depthfirstsearch":
-          depthFirstSearch(cols, start, animate, updateGrid, () => setSearching(false))
-          return
+          depthFirstSearch(cols, s, g, a, updateGrid, () => setSearching(false))
+          break;
         case "bestfirstsearch":
-          bestFirstSearch(cols, start, goal, animate, updateGrid, () => setSearching(false))
+          bestFirstSearch(cols, s, g, a, updateGrid, () => setSearching(false))
           break;
         case "astarsearch":
-          aStarSearch(cols, start, goal, animate, updateGrid, () => setSearching(false))
+          aStarSearch(cols, s, g, a, updateGrid, () => setSearching(false))
           break;
         default:
           return
       }
+
+      setSearched(true);
     }
   }
 
@@ -185,8 +189,9 @@ function App() {
    */
    const mazeGenClicked = (_) => {
     //Ensure only one search can happen at once
-    if (!generating) {
+    if (!generating && !searching) {
       setGenerating(true)
+      setSearched(false)
 
       searchResetGrid()
 
@@ -205,6 +210,8 @@ function App() {
    * Function to clear the grid from a previous search
    */
   const searchResetGrid = () => {
+    setSearched(false)
+
     let array = cols
 
     for (let i = 0; i < array.length; i++) {
@@ -232,6 +239,7 @@ function App() {
     e.dataTransfer.setData(type, "")
     e.dataTransfer.dropEffect = 'none'
     e.dataTransfer.effectAllowed = 'move'
+
   }
 
   /**
@@ -269,7 +277,7 @@ function App() {
     array[x][y] = oldTile
     array[data[1]][data[2]] = newTile
 
-    array[x][y].extra = ""
+    array[x][y].hover = ""
 
     setCols(array)
 
@@ -280,6 +288,14 @@ function App() {
     }
 
     forceRender()
+
+    if (searched) {
+      if (newState === "start") {
+        searchClicked(undefined, false, [x, y], goal)
+      } else {
+        searchClicked(undefined, false, start, [x, y])
+      }
+    }
   }
 
   /**
@@ -297,14 +313,22 @@ function App() {
     const array = cols
 
     if (state === "start") {
-      array[x][y].extra = "starthover"
+      array[x][y].hover = "starthover"
     } else {
-      array[x][y].extra = "goalhover"
+      array[x][y].hover = "goalhover"
     }
 
     setCols(array)
 
     forceRender()
+
+    if (searched) {
+      if (state === "start") {
+        searchClicked(undefined, false, [x, y], goal)
+      } else {
+        searchClicked(undefined, false, start, [x, y])
+      }
+    }
   }
 
   /**
@@ -316,7 +340,7 @@ function App() {
   const onTileDragExit = (_, x, y) => {
     const array = cols
 
-    array[x][y].extra = ""
+    array[x][y].hover = ""
 
     setCols(array, forceRender)
   }
@@ -344,7 +368,7 @@ function App() {
       margin: "15px",
       padding: "15px",
       backgroundColor: "#242629",
-      borderRadius: "15px",
+      borderRadius: "15px"
     }}>
       <Header />
       <br />
@@ -371,6 +395,7 @@ function App() {
           style={{
             overflow: "auto",
             overflowX: "auto",
+            width: "100%"
           }}>
           <ButtonsPane
               resetGrid={resetGrid}

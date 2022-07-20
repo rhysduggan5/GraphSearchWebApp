@@ -15,6 +15,7 @@ const Grid = (props) => {
           yPos={val.yPos}
           state={val.state}
           extra={val.extra}
+          hover={val.hover}
           cellClicked={props.cellClicked}
           cellDragged={props.cellDragged}
           onTileStartDrag={props.onTileStartDrag}

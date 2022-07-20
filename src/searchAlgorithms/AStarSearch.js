@@ -82,9 +82,9 @@ export const aStarSearch = async (array, start, goal, animate, updateFunction, r
 
       queue.add([tempPath, heuristic + weight]);
 
-      if (neighbour.state !== "goal") {
-        array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
-      }
+      if (neighbour.xPos === goal[0] && neighbour.yPos === goal[1]) continue;
+
+      array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
     }
 
     tile = path.pop()
@@ -104,11 +104,11 @@ export const aStarSearch = async (array, start, goal, animate, updateFunction, r
     }
 
     //See BestFirstSearch.js
-    if (queue.peek() === undefined) {
+    if (queue.peek() === undefined && closedList[lookingAtTile.xPos][lookingAtTile.yPos] === 1) {
       break;
     }
 
-    if (lookingAtTile.state === "goal") {
+    if (lookingAtTile.xPos === goal[0] && lookingAtTile.yPos === goal[1]) {
       found = true;
       break;
     }

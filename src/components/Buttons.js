@@ -21,11 +21,20 @@ export const Button = (props) => {
 }
 
 export const LoadingButton = (props) => {
+  let backgroundColor = "";
+
+  if (props.disabled) {
+    backgroundColor = "#72757e"
+  } else {
+    backgroundColor = "#7f5af0"
+  }
+
   return (
     <LB 
       style={{
-        backgroundColor: "#7f5af0"
+        backgroundColor: backgroundColor
       }}
+      disabled={props.disabled}
       loading={props.loading}
       onClick={props.onClick} 
       variant="contained" 

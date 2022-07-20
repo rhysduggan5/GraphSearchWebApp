@@ -3,12 +3,17 @@ import React from 'react'
 
 const Cell = (props) => {
 
-  const backgroundColorGen = (state, extra) => {
-    switch (extra) {
+  const backgroundColorGen = (state, extra, hover) => {
+    switch (hover) {
       case "starthover":
-        return "rgba(0, 128, 0, 0.5)"
+        return "#49a62d"
       case "goalhover":
-        return "rgba(256, 0, 0, 0.5)"
+        return "#f23524"
+      default:
+        break;
+    }
+
+    switch (extra) {
       case "inQueue":
         return "rgba(255, 255, 255, 0.4)"
       case "searched":
@@ -62,7 +67,7 @@ const Cell = (props) => {
   }
 
   const cellStyle = {
-    backgroundColor: backgroundColorGen(props.state, props.extra),
+    backgroundColor: backgroundColorGen(props.state, props.extra, props.hover),
     border: "solid 1px " + borderColorGen(props.state, props.extra)
   }
 

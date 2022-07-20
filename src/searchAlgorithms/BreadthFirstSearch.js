@@ -1,6 +1,6 @@
 import {sleep, getGraphNeighbours} from '../Utils'
 
-export const breadthFirstSearch = async (array, start, animate, updateFunction, resetFunction) => {
+export const breadthFirstSearch = async (array, start, goal, animate, updateFunction, resetFunction) => {
 
   let path = [array[start[0]][start[1]]];
 
@@ -68,9 +68,9 @@ export const breadthFirstSearch = async (array, start, animate, updateFunction, 
       tempPath.push(neighbour)
       queue.push(tempPath);
 
-      if (neighbour.state !== "goal") {
-        array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
-      }      
+      if (neighbour.xPos === goal[0] && neighbour.yPos === goal[1]) continue;
+      
+      array[neighbour.xPos][neighbour.yPos].extra = "inQueue";     
     }
 
     tile = path.pop()
@@ -95,7 +95,7 @@ export const breadthFirstSearch = async (array, start, animate, updateFunction, 
       break;
     }
 
-    if (lookingAtTile.state === "goal") {
+    if (lookingAtTile.xPos === goal[0] && lookingAtTile.yPos === goal[1]) {
       found = true;
       break;
     }

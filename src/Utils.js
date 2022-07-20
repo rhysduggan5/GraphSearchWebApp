@@ -131,6 +131,7 @@ export const generateCells = (xSize, ySize) => {
         yPos: y,
         weight: 1,
         extra: "",
+        hover: "",
         state: "blank"
       })
     }

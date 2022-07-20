@@ -17,7 +17,7 @@ import { ThemeProvider,
 import { WeightIcon, EraserIcon } from '../../icons/Icons'
 
 
-export const SettingsPane = (props) => {
+const SettingsPane = (props) => {
 
   return (
     <MaterialGrid
@@ -183,3 +183,5 @@ export const SettingsPane = (props) => {
     </MaterialGrid>
   );
 }
+
+export default SettingsPane
