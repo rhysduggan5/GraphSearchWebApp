@@ -1,4 +1,4 @@
-import { Edit } from '@mui/icons-material'
+import { Edit, HelpOutline } from '@mui/icons-material'
 
 import { ThemeProvider, 
   ToggleButtonGroup, 
@@ -13,7 +13,8 @@ import { ThemeProvider,
   FormControl,
   FormLabel,
   RadioGroup,
-  Tooltip } from '@mui/material'
+  Tooltip,
+  IconButton } from '@mui/material'
 
 import { WeightIcon, EraserIcon } from '../../icons/Icons'
 
@@ -93,7 +94,23 @@ const SettingsPane = (props) => {
       <FormControl>
         <FormLabel id="algo-selection" style={{
           color: "#fffffe"
-        }}>Search Algorithm</FormLabel>
+        }}>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}>
+            <p>
+              Search Algorithm
+            </p>
+            <IconButton fontSize="small" sx={{
+              color: "#72757e"
+            }}>
+              <HelpOutline/>
+            </IconButton>
+          </div>
+
+        </FormLabel>
         <br />
         <RadioGroup
           row
@@ -150,7 +167,22 @@ const SettingsPane = (props) => {
       <FormControl>
         <FormLabel id="algo-selection" style={{
           color: "#fffffe"
-        }}>Maze Generation Algorithm</FormLabel>
+        }}>
+          <div style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}>
+            <p>
+              Maze Generation Algorithm
+            </p>
+            <IconButton fontSize="small" sx={{
+              color: "#72757e"
+            }}>
+              <HelpOutline/>
+            </IconButton>
+          </div>
+        </FormLabel>
         <br />
         <RadioGroup
           row

@@ -43,6 +43,8 @@ function App() {
   const [mazeAlgorithm, setMazeAlgorithm] = useState("prim")
   const [generating, setGenerating] = useState(false)
   const [searched, setSearched] = useState(false)
+  const [openSearchModal, setOpenSearchModal] = useState(false);
+
 
   //Rerenderer
   const forceRender = useForceRender()
@@ -386,7 +388,9 @@ function App() {
           updateXSize={updateXSize}
           updateYSize={updateYSize}
           columns={columns}
-          rows={rows}/>
+          rows={rows}
+          openSearchModal={openSearchModal}
+          setOpenSearchModal={setOpenSearchModal}/>
 
         <div
           item
