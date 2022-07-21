@@ -32,13 +32,28 @@ export const breadthFirstSearch = async (array, start, goal, animate, updateFunc
     tempPath.push(neighbour)
 
     queue.push(tempPath);
-    array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
 
+    if (neighbour.xPos === goal[0] && neighbour.yPos === goal[1]) continue;
+
+    array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
+  }
+
+  if (queue.length === 0) {
+    updateFunction(array);
+    resetFunction();
+    return;
   }
 
   let lookingAt = queue.shift();
 
   let lookingAtTile = lookingAt[lookingAt.length - 1]
+
+  if (lookingAtTile.xPos === goal[0] && lookingAtTile.yPos === goal[1]) {
+    found = true;
+    updateFunction(array);
+    resetFunction();
+    return;
+  }
 
   array[lookingAtTile.xPos][lookingAtTile.yPos].extra = "lookingAt";
 
@@ -69,7 +84,7 @@ export const breadthFirstSearch = async (array, start, goal, animate, updateFunc
       queue.push(tempPath);
 
       if (neighbour.xPos === goal[0] && neighbour.yPos === goal[1]) continue;
-      
+
       array[neighbour.xPos][neighbour.yPos].extra = "inQueue";     
     }
 

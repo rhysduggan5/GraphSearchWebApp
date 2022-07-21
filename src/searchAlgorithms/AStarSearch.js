@@ -6,7 +6,7 @@ export const aStarSearch = async (array, start, goal, animate, updateFunction, r
 
   let path = [array[start[0]][start[1]]];
 
-  let queue = new FastPriorityQueue(function(a, b) {
+  const queue = new FastPriorityQueue(function(a, b) {
     return a[1] < b[1];
   });
 
@@ -41,13 +41,28 @@ export const aStarSearch = async (array, start, goal, animate, updateFunction, r
     const weight = pathWeight(tempPath);
 
     queue.add([tempPath, heuristic + weight]);
-    array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
 
+    if (neighbour.xPos === goal[0] && neighbour.yPos === goal[1]) continue;
+
+    array[neighbour.xPos][neighbour.yPos].extra = "inQueue";
+  }
+
+  if (queue.peek() === undefined) {
+    updateFunction(array);
+    resetFunction();
+    return;
   }
 
   let lookingAt = queue.poll()[0];
 
   let lookingAtTile = lookingAt[lookingAt.length - 1]
+
+  if (lookingAtTile.xPos === goal[0] && lookingAtTile.yPos === goal[1]) {
+    found = true;
+    updateFunction(array);
+    resetFunction();
+    return;
+  }
 
   array[lookingAtTile.xPos][lookingAtTile.yPos].extra = "lookingAt";
 

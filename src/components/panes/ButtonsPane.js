@@ -17,6 +17,7 @@ const ButtonsPane = (props) => {
     }}>
       <Button 
         onClick={props.resetGrid}
+        disabled={props.generating || props.searching}
         startIcon={<Delete />}
         text="Reset Grid"/>
 
@@ -36,6 +37,7 @@ const ButtonsPane = (props) => {
 
       <Button 
         onClick={props.clearSearch}
+        disabled={props.generating || props.searching}
         startIcon={<Clear />}
         text="Clear Search"/>
     </div>

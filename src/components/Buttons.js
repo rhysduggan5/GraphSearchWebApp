@@ -2,14 +2,23 @@ import {Button as B} from '@mui/material'
 import {LoadingButton as LB} from '@mui/lab'
 
 export const Button = (props) => {
+  let backgroundColor = "";
+
+  if (props.disabled) {
+    backgroundColor = "#72757e"
+  } else {
+    backgroundColor = "#7f5af0"
+  }
+
   return (
     <B 
       style={{
-        backgroundColor: "#7f5af0"
+        backgroundColor: backgroundColor
       }}
       onClick={props.onClick} 
       variant="contained" 
       startIcon={props.startIcon}
+      disabled={props.disabled}
       className="toolbarButton">
       <p style={{
         color: "#fffffe"

@@ -15,9 +15,9 @@ const Cell = (props) => {
 
     switch (extra) {
       case "inQueue":
-        return "rgba(255, 255, 255, 0.4)"
+        return "rgb(115, 115, 118)"
       case "searched":
-        return "rgba(255, 255, 255, 0.6)"
+        return "rgb(162, 162, 162)"
       case "path":
         return "#7f5af0"
       case "lookingAt":
