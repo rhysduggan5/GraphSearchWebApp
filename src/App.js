@@ -239,7 +239,6 @@ function App() {
     e.dataTransfer.setData(type, "")
     e.dataTransfer.dropEffect = 'none'
     e.dataTransfer.effectAllowed = 'move'
-
   }
 
   /**

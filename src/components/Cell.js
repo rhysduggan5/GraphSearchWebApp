@@ -48,6 +48,8 @@ const Cell = (props) => {
         return "rgb(115, 115, 118)"
       case "path":
         return "#7f5af0"
+      case "searched":
+        return "#888"
       default:
         break;
     }

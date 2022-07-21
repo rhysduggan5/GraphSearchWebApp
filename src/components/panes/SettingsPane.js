@@ -12,7 +12,8 @@ import { ThemeProvider,
   Slider,
   FormControl,
   FormLabel,
-  RadioGroup } from '@mui/material'
+  RadioGroup,
+  Tooltip } from '@mui/material'
 
 import { WeightIcon, EraserIcon } from '../../icons/Icons'
 
@@ -47,21 +48,27 @@ const SettingsPane = (props) => {
             style={{ marginRight: "10px" }}
             size="small"
           >
-            <ToggleButton sx={{
-              color: "#72757e"
-            }} color="primary" value="pen" aria-label="pen">
-              <Edit />
-            </ToggleButton>
-            <ToggleButton sx={{
-              color: "#72757e"
-            }} color="primary" value="heavypen" aria-label="heavypen">
-              <WeightIcon />
-            </ToggleButton>
-            <ToggleButton sx={{
-              color: "#72757e"
-            }} color="primary" value="eraser" aria-label="eraser">
-              <EraserIcon />
-            </ToggleButton>
+            <Tooltip title="Wall" arrow placement="top">
+              <ToggleButton sx={{
+                color: "#72757e"
+              }} color="primary" value="pen" aria-label="pen">
+                <Edit />
+              </ToggleButton>
+            </Tooltip>
+            <Tooltip title="Weighted tile" arrow placement="top">
+              <ToggleButton sx={{
+                color: "#72757e"
+              }} color="primary" value="heavypen" aria-label="heavypen">
+                <WeightIcon />
+              </ToggleButton>
+            </Tooltip>
+            <Tooltip title="Eraser" arrow placement="top">
+              <ToggleButton sx={{
+                color: "#72757e"
+              }} color="primary" value="eraser" aria-label="eraser">
+                <EraserIcon />
+              </ToggleButton>
+            </Tooltip>
           </ToggleButtonGroup>
         </ThemeProvider>
       </div>
